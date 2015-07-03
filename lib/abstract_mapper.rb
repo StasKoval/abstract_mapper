@@ -13,6 +13,7 @@ require_relative "abstract_mapper/builder"
 
 require_relative "abstract_mapper/rule"
 require_relative "abstract_mapper/sole_rule"
+require_relative "abstract_mapper/pair_rule"
 
 # The configurable base class for mappers
 #
