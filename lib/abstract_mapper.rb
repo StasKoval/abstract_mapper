@@ -19,6 +19,8 @@ require_relative "abstract_mapper/pair_rule"
 require_relative "abstract_mapper/rules"
 require_relative "abstract_mapper/optimizer"
 
+require_relative "abstract_mapper/settings"
+
 # The configurable base class for mappers
 #
 class AbstractMapper
