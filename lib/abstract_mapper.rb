@@ -20,6 +20,7 @@ require_relative "abstract_mapper/rules"
 require_relative "abstract_mapper/optimizer"
 
 require_relative "abstract_mapper/settings"
+require_relative "abstract_mapper/dsl"
 
 # The configurable base class for mappers
 #
