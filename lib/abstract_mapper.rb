@@ -9,6 +9,7 @@ require_relative "abstract_mapper/errors/unknown_command"
 require_relative "abstract_mapper/node"
 require_relative "abstract_mapper/branch"
 require_relative "abstract_mapper/commands"
+require_relative "abstract_mapper/builder"
 
 # The configurable base class for mappers
 #
