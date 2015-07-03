@@ -3,6 +3,7 @@
 require "transproc"
 
 require_relative "abstract_mapper/node"
+require_relative "abstract_mapper/branch"
 
 # The configurable base class for mappers
 #
