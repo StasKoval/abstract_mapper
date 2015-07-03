@@ -5,6 +5,7 @@ require "transproc"
 require_relative "abstract_mapper/functions"
 
 require_relative "abstract_mapper/errors/unknown_command"
+require_relative "abstract_mapper/errors/wrong_node"
 
 require_relative "abstract_mapper/node"
 require_relative "abstract_mapper/branch"
