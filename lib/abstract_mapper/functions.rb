@@ -28,6 +28,33 @@ class AbstractMapper
       map_array(array, fn).compact.flatten
     end
 
+    # Applies the function to every consecutive pair of array elements,
+    # and removes empty values
+    #
+    # @example
+    #   function = -> a, b { (a == b) ? [a + b] : [a, b] }
+    #   fn = Functions[:compact, function]
+    #   fn[[1, 1, 2]] # => [4]
+    #   fn[[1, 2, 2]] # => [1, 4]
+    #
+    # @param [Array] array
+    # @param [Proc] fn
+    #   Anonymous function (proc, lambda), that takes two arguments
+    #   and returns an array
+    #
+    # @return [Array]
+    #
+    def compact(array, fn)
+      array.each_with_object([]) do |i, a|
+        if a.empty?
+          a << i
+        else
+          a[-1] = fn.call(a.last, i)
+          a.flatten!
+        end
+      end
+    end
+
   end # module Functions
 
 end # class AbstractMapper
