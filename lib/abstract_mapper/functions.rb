@@ -55,6 +55,22 @@ class AbstractMapper
       end
     end
 
+    # Checks whether the class or module has given ancestor
+    #
+    # @example
+    #   fn = Functions[:subclass?, Module]
+    #   fn[Class]  # => true
+    #   fn[Object] # => false
+    #
+    # @param [Module] subling
+    # @param [Module] ancestor
+    #
+    # @return [Boolean]
+    #
+    def subclass?(subling, ancestor)
+      subling.ancestors.include?(ancestor)
+    end
+
   end # module Functions
 
 end # class AbstractMapper
