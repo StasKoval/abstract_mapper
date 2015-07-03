@@ -1,0 +1,3 @@
+---
+warn_cyclo:  2
+error_cyclo: 3
