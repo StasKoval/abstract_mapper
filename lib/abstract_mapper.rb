@@ -11,6 +11,8 @@ require_relative "abstract_mapper/branch"
 require_relative "abstract_mapper/commands"
 require_relative "abstract_mapper/builder"
 
+require_relative "abstract_mapper/rule"
+
 # The configurable base class for mappers
 #
 class AbstractMapper
