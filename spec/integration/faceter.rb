@@ -43,6 +43,16 @@ shared_context "Faceter" do
         end
       end
 
+      # Registry
+      class Mapper < AbstractMapper
+        configure do
+          command :list,   Faceter::List
+          command :rename, Faceter::Rename
+
+          rule Faceter::CompactLists
+        end
+      end
+
     end # module Faceter
 
   end # before
