@@ -7,13 +7,6 @@ describe AbstractMapper::SoleRule do
   let(:nodes) { [node] }
   let(:node)  { double }
 
-  describe ".composer" do
-
-    subject { test.composer }
-    it { is_expected.to eql :filter }
-
-  end # describe .pair?
-
   describe ".new" do
 
     subject { rule }
@@ -41,9 +34,9 @@ describe AbstractMapper::SoleRule do
       test.send(:define_method, :optimize)  { -node if node < 7 }
     end
 
-    subject { test.transproc[array] }
-
     let(:array) { [5, 1, 38, 4] }
+
+    subject { test.transproc[array] }
     it { is_expected.to eql [-5, 1, -4] }
 
   end # describe #transproc

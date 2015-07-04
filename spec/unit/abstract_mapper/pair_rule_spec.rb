@@ -8,13 +8,6 @@ describe AbstractMapper::PairRule do
   let(:left)  { double                                          }
   let(:right) { double                                          }
 
-  describe ".composer" do
-
-    subject { test.composer }
-    it { is_expected.to eql :compact }
-
-  end # describe .pair?
-
   describe ".new" do
 
     subject { rule }
@@ -49,9 +42,9 @@ describe AbstractMapper::PairRule do
       test.send(:define_method, :optimize)  { left + right  }
     end
 
-    subject { test.transproc[array] }
-
     let(:array) { [1, 1, 2, 5] }
+
+    subject { test.transproc[array] }
     it { is_expected.to eql [4, 5] }
 
   end # describe #transproc

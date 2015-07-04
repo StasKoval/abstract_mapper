@@ -25,13 +25,11 @@ class AbstractMapper
   #
   class SoleRule < Rule
 
-    # Returns the name of transproc used to compose rules
-    #
-    # @return [Symbol]
-    #
+    # @private
     def self.composer
       :filter
     end
+    private_class_method :composer
 
     # @!attribute [r] node
     #

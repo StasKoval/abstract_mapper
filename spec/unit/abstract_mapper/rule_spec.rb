@@ -31,36 +31,41 @@ describe AbstractMapper::Rule do
 
     subject { rule.call }
 
-    before { test.send(:define_method, :optimize?) { true }  }
-    before { test.send(:define_method, :optimize) { [:foo] } }
+    context "by default" do
+
+      it { is_expected.to eql nodes }
+
+    end # context
 
     context "when #optimize? returns true" do
 
       before { test.send(:define_method, :optimize?) { true } }
-      it { is_expected.to eql [:foo] }
+      it { is_expected.to eql nodes }
 
     end # context
 
-    context "when #optimize? returns false" do
-
-      before { test.send(:define_method, :optimize?) { false } }
-      it { is_expected.to eql [node] }
-
-    end # context
-
-    context "when #optimize returns non-array" do
+    context "when #optimize is defined" do
 
       before { test.send(:define_method, :optimize) { :foo } }
+      it { is_expected.to eql nodes }
+
+    end # context
+
+    context "when #optimize? returns true and #optimize is defined" do
+
+      before { test.send(:define_method, :optimize?) { true } }
+      before { test.send(:define_method, :optimize)  { :foo } }
       it { is_expected.to eql [:foo] }
 
-    end # contex
+    end # context
 
     context "when #optimize returns nils" do
 
+      before { test.send(:define_method, :optimize?) { true } }
       before { test.send(:define_method, :optimize) { [nil, nil] } }
       it { is_expected.to eql [] }
 
-    end # contex
+    end # context
 
   end # describe #call
 
@@ -69,14 +74,25 @@ describe AbstractMapper::Rule do
     before do
       test.send(:define_method, :optimize?) { true          }
       test.send(:define_method, :optimize)  { nodes.reverse }
-      allow(test).to receive(:composer)     { :compact      }
     end
-
-    subject { test.transproc[array] }
 
     let(:array) { [1, 2, 3] }
 
-    it { is_expected.to eql [2, 3, 1] }
+    context "with default composer" do
+
+      subject { test.transproc[array] }
+      it { is_expected.to eql array }
+
+    end # context
+
+    context "with another composer" do
+
+      before { allow(test).to receive(:composer) { :compact } }
+
+      subject { test.transproc[array] }
+      it { is_expected.to eql [2, 3, 1] }
+
+    end # context
 
   end # describe .transproc
 

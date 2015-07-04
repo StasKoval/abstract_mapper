@@ -26,13 +26,11 @@ class AbstractMapper
   #
   class PairRule < Rule
 
-    # Returns the name of transproc used to compose rules
-    #
-    # @return [Symbol]
-    #
+    # @private
     def self.composer
       :compact
     end
+    private_class_method :composer
 
     # @!attribute [r] node
     #

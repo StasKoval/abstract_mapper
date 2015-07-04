@@ -10,6 +10,12 @@ class AbstractMapper
   #
   class Rule
 
+    # @private
+    def self.composer
+      :identity
+    end
+    private_class_method :composer
+
     # The transformation function that applies the rule to the array of nodes
     #
     # @return [Transproc::Function]
@@ -37,6 +43,21 @@ class AbstractMapper
     def initialize(*nodes)
       @nodes = nodes.freeze
       freeze
+    end
+
+    # Checks if optimization is needed for the node(s)
+    #
+    # @return [Boolean]
+    #
+    def optimize?
+    end
+
+    # Returns the optimized node(s)
+    #
+    # @return [Object]
+    #
+    def optimize
+      nodes
     end
 
     # Returns the result of the rule applied to the initialized [#nodes]
