@@ -32,6 +32,17 @@ shared_context "Faceter" do
         end
       end
 
+      # Rules
+      class CompactLists < AbstractMapper::PairRule
+        def optimize?
+          left.is_a?(List) && right.is_a?(List)
+        end
+
+        def optimize
+          List.new { left.entries + right.entries }
+        end
+      end
+
     end # module Faceter
 
   end # before

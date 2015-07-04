@@ -44,4 +44,19 @@ describe "rspec examples" do
 
   end # describe Faceter::List
 
+  describe "Faceter::CompactLists" do
+
+    let(:described_class) { Faceter::CompactLists }
+
+    it_behaves_like :skipping_nodes do
+      let(:input) { [Faceter::Rename.new(:foo, to: :bar), Faceter::List.new] }
+    end
+
+    it_behaves_like :optimizing_nodes do
+      let(:input)  { [Faceter::List.new { [1] }, Faceter::List.new { [2] }] }
+      let(:output) { Faceter::List.new { [1, 2] } }
+    end
+
+  end # describe Faceter::CompactLists
+
 end # describe mapper definition
