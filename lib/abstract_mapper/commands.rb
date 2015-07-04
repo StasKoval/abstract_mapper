@@ -32,13 +32,12 @@ class AbstractMapper
 
     # Returns a new immutable registry with added command name and type
     #
-    # @param [Array<Symbol, Class>] other
+    # @param [[Symbol, Class]] other
     #
     # @return [undefined]
     #
     def <<(other)
-      name = other[0]
-      node = other[1]
+      name, node = other
       self.class.new registry.merge(name.to_sym => node)
     end
 
