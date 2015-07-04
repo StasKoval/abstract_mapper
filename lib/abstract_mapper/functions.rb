@@ -12,6 +12,20 @@ class AbstractMapper
 
     uses :map_array, from: Transproc::ArrayTransformations
 
+    # Returns the unchanged value whatever parameters are given
+    #
+    # @example
+    #   fn = Functions[:identity, :foo]
+    #   fn[1] # => 1
+    #
+    # @param [Object] value
+    #
+    # @return [Object]
+    #
+    def identity(value, *)
+      value
+    end
+
     # Applies the function to every element of array and removes empty values
     #
     # @example
