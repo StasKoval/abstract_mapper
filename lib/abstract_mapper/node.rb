@@ -39,10 +39,12 @@ class AbstractMapper
     # @!method transproc
     # The transformation function for the branch
     #
+    # @return [Transproc::Function]
+    #
     # @abstract
     #
     def transproc
-      Transproc::Function.new(-> v { v }, {})
+      Functions[:identity]
     end
 
     # Returns a human-readable string representating the node
