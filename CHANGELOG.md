@@ -8,6 +8,7 @@
 
 ### Internal
 
+* Switched to `transproc` gem v0.3.0 (nepalez)
 * Added the `Functions#identity` pure function (nepalez)
 * Made the `Rule` to fully implement the interface, including method `.transproc`, `#optimize?`, `#optimize` that by default change nothing (nepalez)
 * Made the `.composer` setting private for all rules (`Rule`, `SoleRule`, `PairRule`) (nepalez)

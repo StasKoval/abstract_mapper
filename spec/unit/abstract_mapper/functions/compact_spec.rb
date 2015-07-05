@@ -1,11 +1,11 @@
 # encoding: utf-8
 
-require "abstract_mapper/rspec"
+require "transproc/rspec"
 
 describe AbstractMapper::Functions, "#compact" do
 
-  let(:function)  { -> a, b { (a == b) ? [a + b] : [a, b] } }
-  let(:arguments) { [:compact, function] }
+  let(:fn) { -> a, b { (a == b) ? [a + b] : [a, b] } }
+  let(:arguments) { [:compact, fn] }
 
   it_behaves_like :transforming_immutable_data do
     let(:input)  { [] }

@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require "abstract_mapper/rspec"
+require "transproc/rspec"
 
 describe AbstractMapper::Functions, "#filter" do
 

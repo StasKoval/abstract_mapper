@@ -28,7 +28,7 @@ shared_examples :defining_command do
       |
       |#{described_class} DSL commands
       |
-      |expected to include '#{name}' adding #{node.inspect}
+      |expected to include '#{name}' that adds #{node.inspect}
       |     got commands:
       |#{subject
         .map { |name, node| "#{" " * 9}- #{name}: #{node.inspect}" }

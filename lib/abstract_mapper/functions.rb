@@ -10,7 +10,7 @@ class AbstractMapper
 
     extend Transproc::Registry
 
-    uses :map_array, from: Transproc::ArrayTransformations
+    import :map_array, from: Transproc::ArrayTransformations
 
     # Returns the unchanged value whatever parameters are given
     #
@@ -22,7 +22,7 @@ class AbstractMapper
     #
     # @return [Object]
     #
-    def identity(value, *)
+    def self.identity(value, *)
       value
     end
 
@@ -38,8 +38,8 @@ class AbstractMapper
     #
     # @return [Array]
     #
-    def filter(array, fn)
-      map_array(array, fn).compact.flatten
+    def self.filter(array, fn)
+      t(:map_array, fn)[array].compact.flatten
     end
 
     # Applies the function to every consecutive pair of array elements,
@@ -58,7 +58,7 @@ class AbstractMapper
     #
     # @return [Array]
     #
-    def compact(array, fn)
+    def self.compact(array, fn)
       array.each_with_object([]) do |i, a|
         if a.empty?
           a << i
@@ -81,7 +81,7 @@ class AbstractMapper
     #
     # @return [Boolean]
     #
-    def subclass?(subling, ancestor)
+    def self.subclass?(subling, ancestor)
       subling.ancestors.include?(ancestor)
     end
 
