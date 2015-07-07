@@ -12,7 +12,7 @@ class AbstractMapper
 
       # @private
       def initialize(node)
-        super "#{node} is not a subclass of AbstractMapper::SoleRule"
+        super "#{node} is not a subclass of AbstractMapper::Rule"
         freeze
       end
 

@@ -4,6 +4,7 @@
 
 * Fixed the `:transforming_immutable_data` shared examples so that it can deal with singleton inputs (nepalez)
 * Fixed the `:mapping_immutable_input` shared examples so that it can deal with singleton inputs (nepalez)
+* Fixed typo in `WrongRule` exception message (nepalez)
 
 [Compare v0.0.1...HEAD](https://github.com/nepalez/abstract_mapper/compare/v0.0.1...HEAD)
 
