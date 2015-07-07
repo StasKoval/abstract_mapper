@@ -48,19 +48,24 @@ shared_examples :mapping_immutable_input do
     end
   end
 
-  subject { node.transproc.call(immutable_input) }
+  subject(:transproc) { node.transproc }
 
-  it do
-    is_expected.to eql(output), <<-REPORT.gsub(/.+\|/, "")
-      |
-      |#{node}
-      |
-      |Input: #{input}
-      |
-      |Output:
-      |  expected: #{output}
-      |       got: #{subject}
-    REPORT
+  it "creates a composable transproc" do
+    expect(transproc).to be_kind_of Transproc::Function
+  end
+
+  it "maps the input" do
+    expect(transproc[immutable_input])
+      .to eql(output), <<-REPORT.gsub(/.+\|/, "")
+        |
+        |#{node}
+        |
+        |Input: #{input}
+        |
+        |Output:
+        |  expected: #{output}
+        |       got: #{subject}
+      REPORT
   end
 
 end # shared examples
