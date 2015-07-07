@@ -40,7 +40,15 @@ shared_examples :mapping_immutable_input do
 
   include_context :node
 
-  subject { node.transproc.call(input.dup.freeze) }
+  let(:immutable_input) do
+    begin
+      input.dup.freeze
+    rescue TypeError # in case input is a singleton that cannot be duplicated
+      input
+    end
+  end
+
+  subject { node.transproc.call(immutable_input) }
 
   it do
     is_expected.to eql(output), <<-REPORT.gsub(/.+\|/, "")
