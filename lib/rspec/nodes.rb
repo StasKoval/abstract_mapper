@@ -64,7 +64,7 @@ shared_examples :mapping_immutable_input do
         |
         |Output:
         |  expected: #{output}
-        |       got: #{subject}
+        |       got: #{transproc[immutable_input]}
       REPORT
   end
 
