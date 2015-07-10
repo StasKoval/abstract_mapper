@@ -1,78 +1,100 @@
 # encoding: utf-8
 
-describe AbstractMapper::Builder do
+class AbstractMapper
 
-  before do
-    AbstractMapper::Test::Builder = Class.new(described_class)
-    AbstractMapper::Test::Foo     = Class.new(AbstractMapper::Node)
-    AbstractMapper::Test::Bar     = Class.new(AbstractMapper::Branch)
-  end
+  describe AbstractMapper::Builder do
 
-  let(:builder)  { test.new tree                          }
-  let(:test)     { AbstractMapper::Test::Builder          }
-  let(:commands) { AbstractMapper::Commands.new(registry) }
-  let(:tree)     { AbstractMapper::Test::Foo.new          }
-  let(:registry) do
-    { foo: AbstractMapper::Test::Foo, bar: AbstractMapper::Test::Bar }
-  end
-
-  describe ".commands=" do
-
-    subject { test.commands = commands }
-
-    it "sets the commands" do
-      expect { subject }.to change { test.commands }.to commands
+    before do
+      Test::Builder = Class.new(described_class)
+      Test::Foo     = Class.new(Node)
+      Test::Bar     = Class.new(Branch)
     end
 
-  end # describe .commands=
+    let(:builder)  { test.new tree                      }
+    let(:test)     { Test::Builder                      }
+    let(:tree)     { Test::Foo.new                      }
+    let(:commands) { Commands.new(registry)             }
+    let(:registry) { { foo: Test::Foo, bar: Test::Bar } }
 
-  describe ".update" do
+    describe ".commands=" do
 
-    before { test.commands = commands }
+      subject { test.commands = commands }
 
-    context "by default" do
-
-      subject { test.update }
-
-      it "is an empty branch" do
-        expect(subject).to be_instance_of AbstractMapper::Branch
-        expect(subject.entries).to be_empty
+      it "sets the commands" do
+        expect { subject }.to change { test.commands }.to commands
       end
 
-    end # context
+    end # describe .commands=
 
-    context "initialized" do
+    describe ".update" do
 
-      subject { test.update(tree) }
-      it { is_expected.to eql tree }
+      before { test.commands = commands }
 
-    end # context
+      context "by default" do
 
-    context "with a block" do
+        subject { test.update }
 
-      subject { test.update { bar { foo(:foo) { fail } } } }
+        it "is an empty branch" do
+          expect(subject).to be_instance_of AbstractMapper::Branch
+          expect(subject.entries).to be_empty
+        end
 
-      it "is built" do
-        expect(subject.inspect).to eql "<Root [<Bar [<Foo(:foo)>]>]>"
-        expect(subject.first.first.block).not_to be_nil
+      end # context
+
+      context "initialized" do
+
+        subject { test.update(tree) }
+        
+        it "returns exactly the same tree" do
+          expect(subject.inspect).to eql(tree.inspect)
+        end
+
+      end # context
+
+      context "with a block" do
+
+        subject { test.update { bar { foo(:foo) { fail } } } }
+
+        it "is built" do
+          expect(subject.inspect).to eql "<Root [<Bar [<Foo(:foo)>]>]>"
+          expect(subject.first.first.block).not_to be_nil
+        end
+
+      end # context
+
+    end # describe .update
+
+    describe ".new" do
+
+      subject { builder }
+
+      it { is_expected.to be_frozen }
+
+      it "doesn't freezes the tree" do
+        expect { subject }.not_to change { tree.frozen? }
       end
 
-    end # context
+    end # describe .new
 
-  end # describe .update
+    describe "#tree" do
 
-  describe ".new" do
+      subject { builder.tree }
 
-    subject { builder }
-    it { is_expected.to be_frozen }
+      it "returns exactly the same tree as initialized" do
+        expect(subject.inspect).to eql tree.inspect
+      end
 
-  end # describe .new
+      it { is_expected.to be_frozen }
 
-  describe "#respond_to?" do
+    end # describe #tree
 
-    subject { builder.respond_to? :arbitrary_method }
-    it { is_expected.to eql true }
+    describe "#respond_to?" do
 
-  end # describe #respond_to?
+      subject { builder.respond_to? :arbitrary_method }
+      it { is_expected.to eql true }
 
-end # describe AbstractMapper::Builder
+    end # describe #respond_to?
+
+  end # describe AbstractMapper::Builder
+
+end

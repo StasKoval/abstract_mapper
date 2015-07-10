@@ -2,12 +2,20 @@
 
 describe AbstractMapper::Branch do
 
-  let(:branch) { test.new(:foo) { [node1, node2] }              }
+  let(:foo) do
+    class Foo < AbstractMapper::Node
+      def transproc
+        AbstractMapper::Functions[-> v { "#{v}-1" }]
+      end
+    end
+    Foo
+  end
+
+  let(:node1)  { foo.new }
+  let(:node2)  { foo.new }
+  let(:node3)  { foo.new }
+  let(:branch) { test.new(:foo) { [node1, node2] } }
   let(:test)   { AbstractMapper::Test::Foo = Class.new(described_class) }
-  let(:tproc)  { Transproc::Function.new -> v { "#{v}-1" }, {}  }
-  let(:node1)  { instance_double AbstractMapper::Node, transproc: tproc }
-  let(:node2)  { instance_double AbstractMapper::Node, transproc: tproc }
-  let(:node3)  { instance_double AbstractMapper::Node, transproc: tproc }
 
   describe ".new" do
 

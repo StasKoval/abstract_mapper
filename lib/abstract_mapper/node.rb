@@ -31,9 +31,9 @@ class AbstractMapper
 
     # @private
     def initialize(*attributes, &block)
-      @attributes = attributes.freeze
+      @attributes = attributes
       @block      = block
-      freeze
+      IceNine.deep_freeze(self)
     end
 
     # @!method transproc

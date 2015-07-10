@@ -5,7 +5,7 @@ describe AbstractMapper::Rule do
   let(:rule)  { test.new(*nodes) }
   let(:test)  { AbstractMapper::Test::Rule = Class.new(described_class) }
   let(:nodes) { [node] }
-  let(:node)  { double }
+  let(:node)  { AbstractMapper::Node.new }
 
   describe ".new" do
 

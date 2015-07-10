@@ -15,7 +15,7 @@ class AbstractMapper
       # @private
       def initialize(name)
         super "'#{name}' is not a registered DSL command"
-        freeze
+        IceNine.deep_freeze(self)
       end
 
     end # class UnknownCommand

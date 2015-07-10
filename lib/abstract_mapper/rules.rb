@@ -24,9 +24,9 @@ class AbstractMapper
 
     # @private
     def initialize(registry = [])
-      @registry  = registry.dup.freeze
+      @registry  = registry.dup
       @transproc = ordered.map(&:transproc).inject(:>>)
-      freeze
+      IceNine.deep_freeze(self)
     end
 
     # Returns the copy of current registry with the new rule added

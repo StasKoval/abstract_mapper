@@ -28,7 +28,7 @@ class AbstractMapper
     # @private
     def initialize(rules)
       @rules = rules
-      freeze
+      IceNine.deep_freeze(self)
     end
 
     # Recursively optimizes the AST from root to leafs

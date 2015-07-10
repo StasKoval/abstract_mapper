@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+require "ice_nine"
 require "transproc"
 
 require_relative "abstract_mapper/functions"
@@ -65,7 +66,7 @@ class AbstractMapper
   def initialize
     @tree = self.class.finalize
     @transproc = @tree.transproc
-    freeze
+    IceNine.deep_freeze(self)
   end
 
   # Maps the input data to some output using the transformation,

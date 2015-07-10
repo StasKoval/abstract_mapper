@@ -52,7 +52,7 @@ class AbstractMapper
       __configure__(&block)
       __set_builder__
       __set_optimizer__
-      freeze
+      IceNine.deep_freeze(self)
     end
 
     private

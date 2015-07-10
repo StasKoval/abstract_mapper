@@ -13,7 +13,7 @@ class AbstractMapper
       # @private
       def initialize(node)
         super "#{node} is not a subclass of AbstractMapper::Rule"
-        freeze
+        IceNine.deep_freeze(self)
       end
 
     end # class WrongRule

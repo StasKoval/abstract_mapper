@@ -5,8 +5,8 @@ describe AbstractMapper::PairRule do
   let(:rule)  { test.new(left, right)                           }
   let(:test)  { AbstractMapper::Test::Rule = Class.new(described_class) }
   let(:nodes) { [left, right]                                   }
-  let(:left)  { double                                          }
-  let(:right) { double                                          }
+  let(:left)  { AbstractMapper::Node.new                        }
+  let(:right) { AbstractMapper::Node.new                        }
 
   describe ".new" do
 

@@ -22,7 +22,11 @@ class AbstractMapper
       #
       # @return [AbstractMapper::Commands] The registry of DSL commands
       #
-      attr_accessor :commands
+      attr_writer :commands
+
+      def commands
+        @commands ||= AbstractMapper::Commands
+      end
 
     end # eigenclass
 
@@ -61,7 +65,7 @@ class AbstractMapper
       @tree     = node
       @commands = self.class.commands
       instance_eval(&block) if block_given?
-      freeze
+      IceNine.deep_freeze(self)
     end
 
     private # DSL commands

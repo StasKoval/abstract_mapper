@@ -41,8 +41,8 @@ class AbstractMapper
 
     # @private
     def initialize(*nodes)
-      @nodes = nodes.freeze
-      freeze
+      @nodes = nodes
+      IceNine.deep_freeze(self)
     end
 
     # Checks if optimization is needed for the node(s)

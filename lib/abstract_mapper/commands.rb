@@ -26,8 +26,8 @@ class AbstractMapper
 
     # @private
     def initialize(registry = {})
-      @registry = registry.dup.freeze
-      freeze
+      @registry = registry.dup
+      IceNine.deep_freeze(self)
     end
 
     # Returns a new immutable registry with added command name and type

@@ -2,14 +2,21 @@
 
 describe AbstractMapper do
 
-  let(:test)      { Class.new(described_class)  }
-  let(:tree)      { double transproc: transproc }
-  let(:transproc) { double                      }
-
   let(:mapper) do
-    allow(transproc).to receive(:call) { |input| "called: #{input}" }
     allow(test).to receive(:finalize) { tree }
     test.new
+  end
+
+  let(:test) { Class.new(described_class)  }
+
+  let(:tree) { klass.new }
+
+  let(:klass) do
+    Class.new(AbstractMapper::Branch) do
+      def transproc
+        -> v { "called: #{v}" }
+      end
+    end
   end
 
   describe ".new" do
@@ -23,6 +30,7 @@ describe AbstractMapper do
 
     subject { mapper.tree }
     it { is_expected.to eql tree }
+    it { is_expected.to be_frozen }
 
   end # describe #tree
 
