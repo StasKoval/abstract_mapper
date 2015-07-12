@@ -1,10 +1,7 @@
 # encoding: utf-8
-begin
-  require "bundler/setup"
-rescue LoadError
-  puts "You must `gem install bundler` and `bundle install` to run rake tasks"
-  exit
-end
+
+require "rubygems"
+require "bundler/setup"
 
 # Loads bundler tasks
 Bundler::GemHelper.install_tasks
@@ -20,7 +17,7 @@ end
 
 # Sets the Hexx::RSpec :test task to default
 task :default do
-  system "bundle exec rspec spec"
+  system "bundle exec rake test:coverage:run"
 end
 
 desc "Runs mutation metric before the first evil being kept"
