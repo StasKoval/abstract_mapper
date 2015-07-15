@@ -1,5 +1,9 @@
 ## Prepared for the next version
 
+### Changed
+
+* Removed force ordering of rules (nepalez)
+
 ### Bugs fixed
 
 * Fixed the `:transforming_immutable_data` shared examples so that it can deal with singleton inputs (nepalez)

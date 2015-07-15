@@ -78,8 +78,8 @@ describe AbstractMapper::Rules do
       let(:nodes) { [1, 1, 2] }
 
       subject { rules[nodes] }
-      it { is_expected.to eql [6, 4] }
-      # [1, 1, 2] -foo-> [2, 2, 3] -foo-> [3, 3, 4] -bar-> [6, 4]
+      it { is_expected.to eql [5, 4] }
+      # [1, 1, 2] -foo-> [2, 2, 3] -bar-> [4, 3] -foo-> [5, 4]
 
     end # context
 

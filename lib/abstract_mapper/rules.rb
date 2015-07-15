@@ -25,7 +25,7 @@ class AbstractMapper
     # @private
     def initialize(registry = [])
       @registry  = registry.dup
-      @transproc = ordered.map(&:transproc).inject(:>>)
+      @transproc = registry.map(&:transproc).inject(:>>)
       IceNine.deep_freeze(self)
     end
 
@@ -47,13 +47,6 @@ class AbstractMapper
     #
     def [](nodes)
       @transproc ? @transproc[nodes] : nodes
-    end
-
-    private
-
-    # Calls all sole rules first
-    def ordered
-      registry.sort_by { |rule| Functions[:subclass?, PairRule][rule].to_s }
     end
 
   end # class Rules
