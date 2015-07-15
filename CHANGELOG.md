@@ -17,6 +17,7 @@
 * Made the `Rule` to fully implement the interface, including method `.transproc`, `#optimize?`, `#optimize` that by default change nothing (nepalez)
 * Made the `.composer` setting private for all rules (`Rule`, `SoleRule`, `PairRule`) (nepalez)
 * Switched to 'ice_nine' gem for freezing instances deeply (nepalez)
+* Added `ice_double` feature to specs (nepalez)
 
 [Compare v0.0.1...HEAD](https://github.com/nepalez/abstract_mapper/compare/v0.0.1...HEAD)
 
