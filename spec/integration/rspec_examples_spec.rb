@@ -47,19 +47,4 @@ describe "rspec examples" do
 
   end # describe Faceter::CompactLists
 
-  describe "Faceter::Mapper" do
-
-    let(:described_class) { Faceter::Mapper }
-
-    it_behaves_like :defining_command do
-      let(:name) { :list }
-      let(:node) { Faceter::List }
-    end
-
-    it_behaves_like :defining_rule do
-      let(:rule) { Faceter::CompactLists }
-    end
-
-  end # describe Faceter::Mapper
-
 end # describe mapper definition

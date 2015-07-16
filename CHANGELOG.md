@@ -4,6 +4,10 @@
 
 * Removed force ordering of rules (nepalez)
 
+### Deleted
+
+* Removed shared examples for mapper. The mapper should be specified by integration tests (nepalez)
+
 ### Bugs fixed
 
 * Fixed the `:transforming_immutable_data` shared examples so that it can deal with singleton inputs (nepalez)
