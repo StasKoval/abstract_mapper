@@ -22,6 +22,7 @@
 * Made the `.composer` setting private for all rules (`Rule`, `SoleRule`, `PairRule`) (nepalez)
 * Switched to 'ice_nine' gem for freezing instances deeply (nepalez)
 * Added `ice_double` feature to specs (nepalez)
+* Added `AbstractMapper::Command` that can convert arguments of the command to the node's (nepalez)
 
 [Compare v0.0.1...HEAD](https://github.com/nepalez/abstract_mapper/compare/v0.0.1...HEAD)
 
