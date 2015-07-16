@@ -1,113 +1,120 @@
 # encoding: utf-8
 
-describe AbstractMapper::Settings do
+class AbstractMapper
 
-  let!(:rule) do
-    AbstractMapper::Test::Rule = Class.new(AbstractMapper::SoleRule)
-  end
-  let!(:node) do
-    AbstractMapper::Test::Node = Class.new(AbstractMapper::Node)
-  end
+  describe AbstractMapper::Settings do
 
-  let(:settings) do
-    described_class.new do
-      command :foo, AbstractMapper::Test::Node
-      rule AbstractMapper::Test::Rule
-    end
-  end
+    let!(:rule) { Test::Rule = Class.new(SoleRule) }
+    let!(:node) { Test::Node = Class.new(Node)     }
 
-  describe ".new" do
-
-    context "with a valid block" do
-
-      subject { settings }
-      it { is_expected.to be_frozen }
-
-    end # context
-
-    context "with invalid command" do
-
-      subject { described_class.new { command :foo, String } }
-      it "fails" do
-        expect { subject }.to raise_error do |error|
-          expect(error).to be_kind_of AbstractMapper::Errors::WrongNode
-          expect(error.message).to include "String"
+    let(:settings) do
+      described_class.new do
+        command :foo, Test::Node do |*args|
+          args.reverse
         end
+
+        rule Test::Rule
       end
+    end
 
-    end # context
+    describe ".new" do
 
-    context "with invalid rule" do
+      context "with a valid block" do
 
-      subject { described_class.new { rule String } }
-      it "fails" do
-        expect { subject }.to raise_error do |error|
-          expect(error).to be_kind_of AbstractMapper::Errors::WrongRule
-          expect(error.message).to include "String"
+        subject { settings }
+        it { is_expected.to be_frozen }
+
+      end # context
+
+      context "with invalid command" do
+
+        subject { described_class.new { command :foo, String } }
+
+        it "fails" do
+          expect { subject }.to raise_error do |error|
+            expect(error).to be_kind_of Errors::WrongNode
+            expect(error.message).to include "String"
+          end
         end
+
+      end # context
+
+      context "with invalid rule" do
+
+        subject { described_class.new { rule String } }
+
+        it "fails" do
+          expect { subject }.to raise_error do |error|
+            expect(error).to be_kind_of Errors::WrongRule
+            expect(error.message).to include "String"
+          end
+        end
+
+      end # context
+
+      context "without a block" do
+
+        subject { described_class.new }
+
+        it "doesn't fail" do
+          expect { subject }.not_to raise_error
+        end
+
+      end # context
+
+    end # describe .new
+
+    describe "#commands" do
+
+      subject { settings.commands }
+
+      it { is_expected.to be_kind_of Commands }
+
+      it "contains registered commands" do
+        node = subject[:foo].call(:foo, :bar)
+        expect(node.inspect).to eql "<Node(:bar, :foo)>"
       end
 
-    end # context
+    end # describe #commands
 
-    context "without a block" do
+    describe "#rules" do
 
-      subject { described_class.new }
-      it "doesn't fail" do
-        expect { subject }.not_to raise_error
+      subject { settings.rules }
+
+      it { is_expected.to be_kind_of Rules }
+
+      it "contains registered rules" do
+        expect(subject.registry).to eql [rule]
       end
 
-    end # context
+    end # describe #rules
 
-  end # describe .new
+    describe "#builder" do
 
-  describe "#commands" do
+      subject { settings.builder }
 
-    subject { settings.commands }
+      it "subclasses Builder" do
+        expect(subject.superclass).to eql Builder
+      end
 
-    it { is_expected.to be_kind_of AbstractMapper::Commands }
+      it "uses registered commands" do
+        expect(subject.commands).to eql settings.commands
+      end
 
-    it "contains registered commands" do
-      expect(subject.registry).to eql(foo: node)
-    end
+    end # describe #builder
 
-  end # describe #commands
+    describe "#optimizer" do
 
-  describe "#rules" do
+      subject { settings.optimizer }
 
-    subject { settings.rules }
+      it { is_expected.to be_kind_of Optimizer }
 
-    it { is_expected.to be_kind_of AbstractMapper::Rules }
+      it "uses registered rules" do
+        expect(subject.rules).to eql settings.rules
+      end
 
-    it "contains registered rules" do
-      expect(subject.registry).to eql [rule]
-    end
+    end # describe #optimizer
 
-  end # describe #rules
+  end # describe Settings
 
-  describe "#builder" do
-
-    subject { settings.builder }
-
-    it "subclasses AbstractMapper::Builder" do
-      expect(subject.superclass).to eql AbstractMapper::Builder
-    end
-
-    it "uses registered commands" do
-      expect(subject.commands).to eql settings.commands
-    end
-
-  end # describe #builder
-
-  describe "#optimizer" do
-
-    subject { settings.optimizer }
-
-    it { is_expected.to be_kind_of AbstractMapper::Optimizer }
-
-    it "uses registered rules" do
-      expect(subject.rules).to eql settings.rules
-    end
-
-  end # describe #optimizer
-
-end # describe AbstractMapper::Settings
+end # class AbstractMapper

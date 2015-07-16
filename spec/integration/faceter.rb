@@ -21,14 +21,13 @@ shared_context "Faceter" do
       end
 
       class Rename < AbstractMapper::Node
-        def initialize(old, options = {})
-          @old = old
-          @new = options.fetch(:to)
+        def initialize(hash)
+          @hash = hash
           super
         end
 
         def transproc
-          Functions[:rename_keys, @old => @new]
+          Functions[:rename_keys, @hash]
         end
       end
 
@@ -43,13 +42,26 @@ shared_context "Faceter" do
         end
       end
 
+      class CompactRenames < AbstractMapper::PairRule
+        def optimize?
+          left.is_a?(Rename) && right.is_a?(Rename)
+        end
+
+        def optimize
+          Rename.new left.attributes.first.merge(right.attributes.first)
+        end
+      end
+
       # Registry
       class Mapper < AbstractMapper
         configure do
           command :list,   Faceter::List
-          command :rename, Faceter::Rename
+          command :rename, Faceter::Rename do |name, options|
+            [name => options.fetch(:to)]
+          end
 
           rule Faceter::CompactLists
+          rule Faceter::CompactRenames
         end
       end
 

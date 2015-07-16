@@ -79,16 +79,15 @@ module Faceter
     end
   end
 
-  # The node to define a renaming of key in a tuple
+  # The node to define a renaming of keys in a tuple
   class Rename < AbstractMapper::Node
-    def initialize(key, **options)
-      @key = key
-      @new_key = options.fetch(:to)
+    def initialize(hash)
+      @hash = hash
       super
     end
 
     def transproc
-      Transproc::HashTransformations[:rename_keys, @key => @new_key]
+      Transproc::HashTransformations[:rename_keys, @hash]
     end
   end
 end
@@ -132,22 +131,38 @@ module Faceter
       List.new { nodes.map(:entries).flatten }
     end
   end
+
+  # Two consecutive renames can be merged
+  class CompactRenames < AbstractMapper::PairRule
+    def optimize?
+      nodes.join(:|) { |n| n.is_a? Rename }
+    end
+
+    def optimize
+      Rename.new(left.attributes.first.merge(rigth.attributes.first))
+    end
+  end
 end
 ```
 
 ### Register commands and rules
 
-Now that both the nodes (transformers) and optimization rules are defined, its time to register them for the mapper:
+Now that both the nodes (transformers) and optimization rules are defined, its time to register them for the mapper.
+
+You can either send argument from command to node constructor as is, or coerce them.
 
 ```ruby
 module Faceter
   class Mapper < AbstractMapper
     configure do
       command :list,   List
-      command :rename, Rename
+
+      # [:foo, to: :bar] becomes [{ foo: :bar }]
+      command :rename, Rename, -> *args { [args.first => args.last.fetch(:to)] }
 
       rule RemoveEmptyLists
       rule CompactLists
+      rule CompactRenames
     end
   end
 end
@@ -184,7 +199,7 @@ All the rules are applied before initializing `my_mapper`, so the AST will be th
 
 ```ruby
 my_mapper.tree
-# => <Root <List [<Rename(foo:, to: :bar)>, <Rename(:baz, to: :qux)>]>
+# => <Root [<List [<Rename({:foo => :bar, :baz => :qux})>]>]>
 ```
 
 Testing

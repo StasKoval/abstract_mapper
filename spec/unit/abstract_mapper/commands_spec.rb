@@ -1,105 +1,64 @@
 # encoding: utf-8
 
-describe AbstractMapper::Commands do
+class AbstractMapper
 
-  let(:commands) { test.new                   }
-  let(:test)     { Class.new(described_class) }
-  let(:branch)   { Class.new(AbstractMapper::Branch)  }
+  describe AbstractMapper::Commands do
 
-  describe ".new" do
+    let(:foo)       { Test::Foo = Class.new(AbstractMapper::Branch) }
+    let(:bar)       { Test::Bar = Class.new(AbstractMapper::Node)   }
+    let(:test)      { Class.new(described_class)                    }
+    let(:commands)  { test.new                                      }
+    let(:converter) { -> v { v.reverse }                            }
 
-    subject { commands }
-    it { is_expected.to be_frozen }
+    describe ".new" do
 
-  end # describe .new
+      let(:registry) { { foo: foo, bar: bar } }
+      subject { test.new(registry) }
 
-  describe "#registry" do
+      it { is_expected.to be_frozen }
 
-    subject { commands.registry }
-
-    context "with a hash" do
-
-      let(:commands) { test.new(registry) }
-      let(:registry) { { foo: branch }    }
-
-      it { is_expected.to eql registry }
-      it { is_expected.to be_frozen    }
-
-      it "doesn't freeze the source" do
+      it "doesn't freeze arguments" do
         expect { subject }.not_to change { registry.frozen? }
       end
 
-    end # context
+    end # describe .new
 
-    context "without a hash" do
+    describe "#[]" do
 
-      let(:commands) { test.new }
+      subject { commands << ["foo", foo] }
 
-      it { is_expected.to eql({})   }
-      it { is_expected.to be_frozen }
-
-    end # context
-
-  end # describe #builder
-
-  describe "#<<" do
-
-    let(:commands) { test.new(foo: branch) }
-
-    subject { commands << ["bar", branch] }
-
-    it "registers a command" do
-      expect(subject).to be_kind_of test
-      expect(subject.registry).to eql(foo: branch, bar: branch)
-    end
-
-  end # describe #<<
-
-  describe "#[]" do
-
-    let(:block) { proc { [:foo] }   }
-    let(:args)  { [:baz, qux: :QUX] }
-    let(:commands) do
-      test.new(foo: AbstractMapper::Node, bar: AbstractMapper::Branch)
-    end
-
-    context "simple node" do
-
-      subject { commands["foo", *args, &block] }
-
-      it "builds a node with a block" do
-        expect(subject).to be_kind_of AbstractMapper::Node
-        expect(subject.attributes).to eql args
-        expect(subject.block).to eql block
+      it "returns registered command" do
+        expect(subject["foo"]).to be_kind_of Command
       end
 
-    end # context
-
-    context "branch command" do
-
-      subject { commands["bar", *args, &block] }
-
-      it "builds a branch" do
-        expect(subject).to be_kind_of AbstractMapper::Node
-        expect(subject.attributes).to eql args
-        expect(subject.entries).to eql []
-      end
-
-    end # context
-
-    context "unknown command" do
-
-      subject { commands["baz"] }
-
-      it "fails" do
-        expect { subject }.to raise_error do |error|
+      it "complains about unknown command" do
+        expect { subject[:baz] }.to raise_error do |error|
           expect(error).to be_kind_of AbstractMapper::Errors::UnknownCommand
           expect(error.message).to include "baz"
         end
       end
 
-    end # context
+    end # describe #[]
 
-  end # describe #build
+    describe "#<<" do
 
-end # describe AbstractMapper::Commands
+      subject { commands << ["foo", foo] << ["bar", bar, converter] }
+
+      it { is_expected.to be_kind_of test }
+
+      it "preserves registered commands" do
+        expect(subject[:foo]).to be_kind_of Command
+      end
+
+      it "registers new command" do
+        expect(subject[:bar]).to be_kind_of Command
+        expect(subject[:bar].name).to eql :bar
+        expect(subject[:bar].klass).to eql bar
+        expect(subject[:bar].converter).to eql converter
+      end
+
+    end # describe #<<
+
+  end # describe AbstractMapper::Commands
+
+end # class AbstractMapper

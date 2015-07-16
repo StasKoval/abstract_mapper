@@ -71,7 +71,7 @@ class AbstractMapper
     private # DSL commands
 
     def method_missing(name, *args, &block)
-      node  = @commands[name, *args, &block]
+      node  = @commands[name].call(*args, &block)
       @tree = tree << (node.is_a?(Branch) ? update(node, &block) : node)
     end
 

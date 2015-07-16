@@ -13,7 +13,7 @@ require "abstract_mapper"
 
 RSpec.configure do |config|
   config.around do |example|
-    class AbstractMapper::Test; end
+    module AbstractMapper::Test; end
     example.run
     AbstractMapper.send :remove_const, :Test
   end

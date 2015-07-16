@@ -1,82 +1,89 @@
 # encoding: utf-8
 
-describe AbstractMapper::DSL do
+class AbstractMapper
 
-  let!(:bar) { AbstractMapper::Test::Bar = Class.new(AbstractMapper::Branch) }
-  let!(:foo) { AbstractMapper::Test::Foo = Class.new(AbstractMapper::Node)   }
-  let!(:rule) do
-    AbstractMapper::Test::Rule = Class.new(AbstractMapper::PairRule) do
-      def optimize?
-        left.instance_of?(AbstractMapper::Test::Foo)
-      end
+  describe AbstractMapper::DSL do
 
-      def optimize
-        AbstractMapper::Test::Foo.new(nodes.flat_map(&:attributes))
-      end
-    end
-  end
-  let!(:dsl) { Class.new { extend AbstractMapper::DSL } }
+    let!(:dsl) { Class.new { extend DSL } }
+    let!(:foo) { Test::Foo = Class.new(Node)    }
+    let!(:bar) { Test::Bar = Class.new(Branch)  }
 
-  let!(:config) do
-    dsl.configure do
-      command :foo, AbstractMapper::Test::Foo
-      command :bar, AbstractMapper::Test::Bar
-      rule AbstractMapper::Test::Rule
-    end
-  end
-
-  describe "#configure" do
-
-    subject { config }
-
-    it { is_expected.to eql dsl }
-
-    it "configures settings" do
-      subject
-      expect(dsl.settings).to be_kind_of AbstractMapper::Settings
-      expect(dsl.settings.rules.registry).to eql [rule]
-      expect(dsl.settings.commands.registry).to eql(foo: foo, bar: bar)
-    end
-
-  end # describe #configure
-
-  describe "#finalize" do
-
-    before do
-      dsl.instance_eval do
-        bar :baz do
-          foo :qux
-          foo :quxx
+    let!(:rule) do
+      Test::Rule = Class.new(PairRule) do
+        def optimize?
+          left.instance_of?(Test::Foo)
         end
-        foo :foo
+
+        def optimize
+          Test::Foo.new(nodes.flat_map(&:attributes))
+        end
       end
     end
 
-    subject { dsl.finalize }
-
-    it { is_expected.to be_kind_of AbstractMapper::Branch }
-
-    it "is optimized" do
-      expect(subject.inspect)
-        .to eql "<Root [<Bar(:baz) [<Foo([:qux, :quxx])>]>, <Foo(:foo)>]>"
+    let!(:config) do
+      dsl.configure do
+        command :foo, Test::Foo
+        command :bar, Test::Bar do |*args|
+          args.reverse
+        end
+        rule Test::Rule
+      end
     end
 
-  end # describe #finalize
+    describe "#configure" do
 
-  describe "#respond_to?" do
+      subject { config }
 
-    subject { dsl.respond_to? :anything }
-    it { is_expected.to eql true }
+      it { is_expected.to eql dsl }
 
-  end # describe #respond_to?
+      it "configures settings" do
+        subject
+        expect(dsl.settings).to be_kind_of Settings
+        expect(dsl.settings.rules.registry).to eql [rule]
+        expect { dsl.settings.commands[:foo] }.not_to raise_error
+      end
 
-  describe ".inherited" do
+    end # describe #configure
 
-    let(:subklass) { Class.new(dsl) }
-    subject { subklass.settings }
+    describe "#finalize" do
 
-    it { is_expected.to eql dsl.settings }
+      before do
+        dsl.instance_eval do
+          bar :baz do
+            foo :qux
+            foo :quxx
+          end
+          foo :foo
+        end
+      end
 
-  end # describe .inherited
+      subject { dsl.finalize }
 
-end # describe AbstractMapper::DSL
+      it { is_expected.to be_kind_of Branch }
+
+      it "is optimized" do
+        expect(subject.inspect)
+          .to eql "<Root [<Bar(:baz) [<Foo([:qux, :quxx])>]>, <Foo(:foo)>]>"
+      end
+
+    end # describe #finalize
+
+    describe "#respond_to?" do
+
+      subject { dsl.respond_to? :anything }
+      it { is_expected.to eql true }
+
+    end # describe #respond_to?
+
+    describe ".inherited" do
+
+      let(:subklass) { Class.new(dsl) }
+      subject { subklass.settings }
+
+      it { is_expected.to eql dsl.settings }
+
+    end # describe .inherited
+
+  end # describe AbstractMapper::DSL
+
+end # class AbstractMapper

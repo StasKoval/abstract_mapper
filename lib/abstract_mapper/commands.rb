@@ -2,19 +2,11 @@
 
 class AbstractMapper
 
-  # Registry of DSL commands used by the builder
+  # Collection of DSL commands used by the builder
   #
   # @api private
   #
   class Commands
-
-    # @!attribute [r] registry
-    #
-    # @return [Hash<Symbol => Class>]
-    #   The registry of command names, pointing to types of the nodes,
-    #   that should be built for adding to AST
-    #
-    attr_reader :registry
 
     # @!scope class
     # @!method new(registry = {})
@@ -32,37 +24,26 @@ class AbstractMapper
 
     # Returns a new immutable registry with added command name and type
     #
-    # @param [[Symbol, Class]] other
+    # @param [[Symbol, Class, Proc]] other
     #
     # @return [undefined]
     #
     def <<(other)
-      name, node = other
-      self.class.new registry.merge(name.to_sym => node)
+      command = Command.new(*other)
+      self.class.new @registry.merge(command.name => command)
     end
 
-    # Builds a node by the name of DSL command
-    #
-    # Skips the block if a registered node is a branch
+    # Returns the registered command by name
     #
     # @param [#to_sym] name The name of the command
-    # @param [Object, Array] args The command's arguments
-    # @param [Proc] block
-    #   The block to be passed to the constructor of the simple node
+    #
+    # @return [AbstractMapper::Command]
     #
     # @raise [AbstractMapper::Errors::UnknownCommand]
     #   When unknown command is called
     #
-    def [](name, *args, &block)
-      type   = get(name)
-      branch = Functions[:subclass?, Branch][type]
-      branch ? type.new(*args) : type.new(*args, &block)
-    end
-
-    private
-
-    def get(name)
-      registry.fetch(name.to_sym) { fail(Errors::UnknownCommand.new name) }
+    def [](name)
+      @registry.fetch(name.to_sym) { fail(Errors::UnknownCommand.new name) }
     end
 
   end # class Commands

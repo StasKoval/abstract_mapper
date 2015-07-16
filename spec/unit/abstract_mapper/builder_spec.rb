@@ -4,17 +4,13 @@ class AbstractMapper
 
   describe AbstractMapper::Builder do
 
-    before do
-      Test::Builder = Class.new(described_class)
-      Test::Foo     = Class.new(Node)
-      Test::Bar     = Class.new(Branch)
-    end
+    let!(:test) { Class.new(described_class)    }
+    let!(:foo)  { Test::Foo = Class.new(Node)   }
+    let!(:bar)  { Test::Bar = Class.new(Branch) }
 
-    let(:builder)  { test.new tree                      }
-    let(:test)     { Test::Builder                      }
-    let(:tree)     { Test::Foo.new                      }
-    let(:commands) { Commands.new(registry)             }
-    let(:registry) { { foo: Test::Foo, bar: Test::Bar } }
+    let(:builder)  { test.new tree }
+    let(:tree)     { Test::Foo.new }
+    let(:commands) { Commands.new << [:foo, Test::Foo] << [:bar, Test::Bar] }
 
     describe ".commands=" do
 
@@ -44,7 +40,7 @@ class AbstractMapper
       context "initialized" do
 
         subject { test.update(tree) }
-        
+
         it "returns exactly the same tree" do
           expect(subject.inspect).to eql(tree.inspect)
         end

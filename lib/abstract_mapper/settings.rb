@@ -63,10 +63,10 @@ class AbstractMapper
       @rules = rules << value
     end
 
-    def command(name, node)
+    def command(name, node, &block)
       fn = Functions[:subclass?, Node]
       fail Errors::WrongNode.new(node) unless fn[node]
-      @commands = commands << [name, node]
+      @commands = commands << [name, node, block]
     end
 
     def __set_rules__

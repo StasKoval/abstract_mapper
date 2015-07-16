@@ -1,5 +1,9 @@
 ## Prepared for the next version
 
+### Added
+
+* Coersion of command arguments into the the node's attributes (nepalez)
+
 ### Changed
 
 * Removed force ordering of rules (nepalez)
