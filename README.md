@@ -62,7 +62,7 @@ The following example represents an oversimplified version of the [faceter] gem.
 
 Every node should implement the `#transproc` method that transforms some input data to the output.
 
-When you need attributes, assign them via initializer:
+When you need attributes, assign them from hash via initializer:
 
 ```ruby
 require "abstract_mapper"
@@ -81,13 +81,8 @@ module Faceter
 
   # The node to define a renaming of keys in a tuple
   class Rename < AbstractMapper::Node
-    def initialize(hash)
-      @hash = hash
-      super
-    end
-
     def transproc
-      Transproc::HashTransformations[:rename_keys, @hash]
+      Transproc::HashTransformations[:rename_keys, attributes]
     end
   end
 end
@@ -139,7 +134,7 @@ module Faceter
     end
 
     def optimize
-      Rename.new(left.attributes.first.merge(rigth.attributes.first))
+      Rename.new nodes.map(&:attributes).reduce(:merge)
     end
   end
 end
@@ -157,8 +152,8 @@ module Faceter
     configure do
       command :list,   List
 
-      # [:foo, to: :bar] becomes [{ foo: :bar }]
-      command :rename, Rename, -> *args { [args.first => args.last.fetch(:to)] }
+      # `:foo, to: :bar` becomes `{ foo: :bar }`
+      command :rename, Rename, -> old, opts { { old => opts.fetch(:to) } }
 
       rule RemoveEmptyLists
       rule CompactLists
@@ -199,7 +194,7 @@ All the rules are applied before initializing `my_mapper`, so the AST will be th
 
 ```ruby
 my_mapper.tree
-# => <Root [<List [<Rename({:foo => :bar, :baz => :qux})>]>]>
+# => <Root [<List [<Rename(foo: :bar, baz: :qux)>]>]>
 ```
 
 Testing

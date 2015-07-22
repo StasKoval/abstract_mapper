@@ -3,8 +3,8 @@
 describe AbstractMapper::Node do
 
   let(:test)       { AbstractMapper::Test::Node = Class.new(described_class) }
-  let(:node)       { test.new(*attributes)                           }
-  let(:attributes) { [:foo, :bar]                                    }
+  let(:node)       { test.new(attributes) }
+  let(:attributes) { { foo: :FOO, bar: :BAR } }
 
   describe ".new" do
 
@@ -32,7 +32,7 @@ describe AbstractMapper::Node do
 
     context "when block is absent" do
 
-      let(:node) { test.new(*attributes) }
+      let(:node) { test.new(attributes) }
       it { is_expected.to eql nil }
 
     end # context
@@ -40,7 +40,7 @@ describe AbstractMapper::Node do
     context "when block is present" do
 
       let(:block) { proc { :foo }                 }
-      let(:node)  { test.new(*attributes, &block) }
+      let(:node)  { test.new(attributes, &block) }
       it { is_expected.to eql block }
 
     end # context
@@ -60,8 +60,8 @@ describe AbstractMapper::Node do
 
     context "with attributes" do
 
-      let(:node) { test.new(*attributes) }
-      it { is_expected.to eql "Node(:foo, :bar)" }
+      let(:node) { test.new(attributes) }
+      it { is_expected.to eql "Node(foo: :FOO, bar: :BAR)" }
 
     end # context
 
@@ -70,7 +70,7 @@ describe AbstractMapper::Node do
   describe "#inspect" do
 
     subject { node.inspect }
-    it { is_expected.to eql "<Node(:foo, :bar)>" }
+    it { is_expected.to eql "<Node(foo: :FOO, bar: :BAR)>" }
 
   end # describe #inspect
 

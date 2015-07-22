@@ -7,9 +7,9 @@
 shared_context :node do
 
   def node
-    attrs__ = defined?(attributes) ? attributes : []
-    block__ = defined?(block) ? block : nil
-    described_class.new(*attrs__, &block__)
+    attributes__ = defined?(attributes) ? attributes : {}
+    block__      = defined?(block) ? block : nil
+    described_class.new(attributes__, &block__)
   end
 
 end # shared context
@@ -50,11 +50,11 @@ shared_examples :mapping_immutable_input do
 
   subject(:transproc) { node.transproc }
 
-  it "creates a composable transproc" do
+  it "[creates a composable transproc]" do
     expect(transproc).to be_kind_of Transproc::Function
   end
 
-  it "maps the input" do
+  it "[maps the input]" do
     expect(transproc[immutable_input])
       .to eql(output), <<-REPORT.gsub(/.+\|/, "")
         |

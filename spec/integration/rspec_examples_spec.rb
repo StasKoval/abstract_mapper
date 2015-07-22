@@ -13,11 +13,12 @@ describe "rspec examples" do
     let(:described_class) { Faceter::Rename }
 
     it_behaves_like :creating_immutable_node do
-      let(:attributes) { [{}] }
+      let(:attributes) { { keys: {} } }
     end
 
     it_behaves_like :mapping_immutable_input do
-      let(:attributes) { [foo: :bar]              }
+      let(:attributes) { { foo: :bar } }
+
       let(:input)      { { foo: :FOO, baz: :BAZ } }
       let(:output)     { { bar: :FOO, baz: :BAZ } }
     end
@@ -37,7 +38,7 @@ describe "rspec examples" do
     let(:described_class) { Faceter::CompactLists }
 
     it_behaves_like :skipping_nodes do
-      let(:input) { [Faceter::Rename.new({}), Faceter::List.new] }
+      let(:input) { [Faceter::Rename.new(keys: {}), Faceter::List.new] }
     end
 
     it_behaves_like :optimizing_nodes do

@@ -46,20 +46,21 @@ class AbstractMapper
       @name = name.to_sym
       @klass = klass
       @branch = Functions[:subclass?, Branch][klass]
-      @converter = converter || -> *args { args }
+      @converter = converter || proc { |args = {}| args }
       IceNine.deep_freeze(self)
     end
 
     # Builds the AST node
     #
-    # @param [Object, Array] attributes
+    # @param [Object, Array] args
+    #   The argument of the command that should be converted to node attributes
     # @param [Proc] block
     #
     # @return [AbstractMapper::Node]
     #
-    def call(*attributes, &block)
+    def call(*args, &block)
       block = nil if @branch
-      klass.new(*converter.call(*attributes), &block)
+      klass.new(converter.call(*args), &block)
     end
 
   end # class Command

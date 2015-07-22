@@ -8,13 +8,12 @@ class AbstractMapper
     let(:name)      { "foo"                                      }
     let(:klass)     { Class.new                                  }
     let(:converter) { -> *args { args.reverse }                  }
-    let(:arguments) { [:bar, baz: :QUX]                          }
+    let(:arguments) { [baz: :QUX]                                }
     let(:block)     { proc { :foo }                              }
 
     describe ".new" do
 
       subject { command }
-
       it { is_expected.to be_frozen }
 
     end # describe .new
@@ -22,7 +21,6 @@ class AbstractMapper
     describe "#name" do
 
       subject { command.name }
-
       it { is_expected.to eql name.to_sym }
 
     end # describe #name
@@ -30,7 +28,6 @@ class AbstractMapper
     describe "#klass" do
 
       subject { command.klass }
-
       it { is_expected.to eql klass  }
 
     end # describe #name
@@ -44,8 +41,8 @@ class AbstractMapper
         let(:command) { described_class.new name, klass }
 
         it "returns identity function" do
-          expect(subject.call).to eql []
-          expect(subject.call(:foo, :bar)).to eql [:foo, :bar]
+          expect(subject.call(foo: :BAR)).to eql(foo: :BAR)
+          expect(subject.call).to eql({})
         end
 
       end # context
@@ -60,13 +57,13 @@ class AbstractMapper
 
     describe "#call" do
 
-      subject { command.call(*arguments, &block) }
+      subject { command.call(arguments, &block) }
 
       context "when the klass is not a branch" do
 
         it "builds a node" do
-          expect(klass).to receive(:new) do |*args, &blk|
-            expect(args).to eql(converter.call(*arguments))
+          expect(klass).to receive(:new) do |args, &blk|
+            expect(args).to eql(converter.call(arguments))
             expect(blk).to eql block
           end
           subject
@@ -79,8 +76,8 @@ class AbstractMapper
         let(:klass) { Class.new(Branch) }
 
         it "builds a branch" do
-          expect(klass).to receive(:new) do |*args, &blk|
-            expect(args).to eql(converter.call(*arguments))
+          expect(klass).to receive(:new) do |args, &blk|
+            expect(args).to eql(converter.call(arguments))
             expect(blk).to be_nil
           end
           subject

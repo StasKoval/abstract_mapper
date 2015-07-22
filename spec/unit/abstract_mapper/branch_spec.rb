@@ -14,7 +14,7 @@ describe AbstractMapper::Branch do
   let(:node1)  { foo.new }
   let(:node2)  { foo.new }
   let(:node3)  { foo.new }
-  let(:branch) { test.new(:foo) { [node1, node2] } }
+  let(:branch) { test.new(foo: :FOO) { [node1, node2] } }
   let(:test)   { AbstractMapper::Test::Foo = Class.new(described_class) }
 
   describe ".new" do
@@ -26,14 +26,14 @@ describe AbstractMapper::Branch do
 
     context "without a block" do
 
-      subject { test.new(:foo).entries }
+      subject { test.new(foo: :FOO).entries }
       it { is_expected.to be_empty }
 
     end # context
 
     context "with a block" do
 
-      subject { test.new(:foo) { [node1, node2] }.entries }
+      subject { test.new(foo: :FOO) { [node1, node2] }.entries }
       it { is_expected.to eql [node1, node2] }
 
     end # context
@@ -124,8 +124,11 @@ describe AbstractMapper::Branch do
 
     context "of the specific node" do
 
-      let(:branch) { test.new(:foo) { [node1, node2] } }
-      it { is_expected.to eql "Foo(:foo) [#{node1.inspect}, #{node2.inspect}]" }
+      let(:branch) { test.new(foo: :FOO) { [node1, node2] } }
+      it do
+        is_expected
+          .to eql "Foo(foo: :FOO) [#{node1.inspect}, #{node2.inspect}]"
+      end
 
     end # context
 

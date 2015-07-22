@@ -24,13 +24,14 @@ describe AbstractMapper::Optimizer do
 
     subject { optimizer.update(tree) }
 
-    let(:rules) { AbstractMapper::Rules.new([rule])                   }
-    let(:rule)  { Class.new(AbstractMapper::PairRule)                 }
-    let(:tree)  { AbstractMapper::Branch.new { [node3, node4] }       }
-    let(:node1) { AbstractMapper::Node.new(1)                         }
-    let(:node2) { AbstractMapper::Node.new(2)                         }
-    let(:node3) { AbstractMapper::Node.new(3)                         }
-    let(:node4) { AbstractMapper::Test::Foo.new(4) { [node1, node2] } }
+    let(:rules) { AbstractMapper::Rules.new([rule])             }
+    let(:rule)  { Class.new(AbstractMapper::PairRule)           }
+    let(:tree)  { AbstractMapper::Branch.new { [node3, node4] } }
+
+    let(:node1) { AbstractMapper::Node.new(n: 1)                         }
+    let(:node2) { AbstractMapper::Node.new(n: 2)                         }
+    let(:node3) { AbstractMapper::Node.new(n: 3)                         }
+    let(:node4) { AbstractMapper::Test::Foo.new(n: 4) { [node1, node2] } }
 
     before { AbstractMapper::Test::Foo = Class.new(AbstractMapper::Branch) }
     before { rule.send(:define_method, :optimize?) { true }                }
@@ -38,9 +39,9 @@ describe AbstractMapper::Optimizer do
 
     it "optimizes the tree deeply" do
       expect(tree.inspect)
-        .to eql "<Root [<Node(3)>, <Foo(4) [<Node(1)>, <Node(2)>]>]>"
+        .to eq "<Root [<Node(n: 3)>, <Foo(n: 4) [<Node(n: 1)>, <Node(n: 2)>]>]>"
       expect(subject.inspect)
-        .to eql "<Root [<Foo(4) [<Node(2)>, <Node(1)>]>, <Node(3)>]>"
+        .to eq "<Root [<Foo(n: 4) [<Node(n: 2)>, <Node(n: 1)>]>, <Node(n: 3)>]>"
     end
 
   end # describe #update

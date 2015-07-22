@@ -49,10 +49,10 @@ class AbstractMapper
 
       context "with a block" do
 
-        subject { test.update { bar { foo(:foo) { fail } } } }
+        subject { test.update { bar { foo(foo: :FOO) { fail } } } }
 
         it "is built" do
-          expect(subject.inspect).to eql "<Root [<Bar [<Foo(:foo)>]>]>"
+          expect(subject.inspect).to eql "<Root [<Bar [<Foo(foo: :FOO)>]>]>"
           expect(subject.first.first.block).not_to be_nil
         end
 

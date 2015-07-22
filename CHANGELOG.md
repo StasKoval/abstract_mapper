@@ -7,6 +7,7 @@
 ### Changed
 
 * Removed force ordering of rules (nepalez)
+* Nodes takes hash of attributes instead of array (nepalez)
 
 ### Deleted
 

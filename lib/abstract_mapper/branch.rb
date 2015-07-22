@@ -32,9 +32,9 @@ class AbstractMapper
     # @return [Branch::Node]
 
     # @private
-    def initialize(*attributes)
+    def initialize(attributes = {})
       @subnodes = block_given? ? yield : []
-      super(*attributes, &nil)
+      super(attributes, &nil)
     end
 
     # Returns a new branch of the same type, with the same attributes,
@@ -54,7 +54,7 @@ class AbstractMapper
     # @yield block
     #
     def rebuild(&block)
-      self.class.new(*attributes, &block)
+      self.class.new(attributes, &block)
     end
 
     # @!method each

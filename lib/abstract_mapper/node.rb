@@ -19,7 +19,7 @@ class AbstractMapper
 
     # @!attribute [r] attributes
     #
-    # @return [Array] The list of node-specific attributes
+    # @return [Hash] The hash of node-specific attributes
     #
     attr_reader :attributes
 
@@ -30,8 +30,8 @@ class AbstractMapper
     attr_reader :block
 
     # @private
-    def initialize(*attributes, &block)
-      @attributes = attributes
+    def initialize(attributes = {}, &block)
+      @attributes = Hash[attributes]
       @block      = block
       IceNine.deep_freeze(self)
     end
@@ -70,7 +70,8 @@ class AbstractMapper
     end
 
     def __attributes__
-      "(#{attributes.map(&:inspect).join(", ")})" if attributes.any?
+      return if attributes.empty?
+      "(#{attributes.map { |k, v| "#{k}: #{v.inspect}" }.join(", ")})"
     end
 
   end # class Node

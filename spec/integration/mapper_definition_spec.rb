@@ -24,7 +24,7 @@ describe "mapper definition" do
 
   it "works" do
     expect(mapper.tree.inspect)
-      .to eql "<Root [<List [<Rename({:foo=>:baz, :bar=>:qux})>]>]>"
+      .to eql "<Root [<List [<Rename(foo: :baz, bar: :qux)>]>]>"
     expect(mapper.call input).to eql output
   end
 

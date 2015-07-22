@@ -9,8 +9,8 @@ class AbstractMapper
 
     let(:settings) do
       described_class.new do
-        command :foo, Test::Node do |*args|
-          args.reverse
+        command :foo, Test::Node do |value|
+          { foo: value }
         end
 
         rule Test::Rule
@@ -71,8 +71,8 @@ class AbstractMapper
       it { is_expected.to be_kind_of Commands }
 
       it "contains registered commands" do
-        node = subject[:foo].call(:foo, :bar)
-        expect(node.inspect).to eql "<Node(:bar, :foo)>"
+        node = subject[:foo].call(:bar)
+        expect(node.inspect).to eql "<Node(foo: :bar)>"
       end
 
     end # describe #commands

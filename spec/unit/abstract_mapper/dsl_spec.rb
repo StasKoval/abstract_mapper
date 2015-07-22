@@ -15,7 +15,7 @@ class AbstractMapper
         end
 
         def optimize
-          Test::Foo.new(nodes.flat_map(&:attributes))
+          Test::Foo.new(left.attributes.merge(right.attributes))
         end
       end
     end
@@ -23,9 +23,7 @@ class AbstractMapper
     let!(:config) do
       dsl.configure do
         command :foo, Test::Foo
-        command :bar, Test::Bar do |*args|
-          args.reverse
-        end
+        command(:bar, Test::Bar) { |value| { bar: value } }
         rule Test::Rule
       end
     end
@@ -50,10 +48,10 @@ class AbstractMapper
       before do
         dsl.instance_eval do
           bar :baz do
-            foo :qux
-            foo :quxx
+            foo foo: :qux
+            foo foo: :quxx
           end
-          foo :foo
+          foo foo: :foo
         end
       end
 
@@ -62,8 +60,8 @@ class AbstractMapper
       it { is_expected.to be_kind_of Branch }
 
       it "is optimized" do
-        expect(subject.inspect)
-          .to eql "<Root [<Bar(:baz) [<Foo([:qux, :quxx])>]>, <Foo(:foo)>]>"
+        desc = "<Root [<Bar(bar: :baz) [<Foo(foo: :quxx)>]>, <Foo(foo: :foo)>]>"
+        expect(subject.inspect).to eql(desc)
       end
 
     end # describe #finalize
