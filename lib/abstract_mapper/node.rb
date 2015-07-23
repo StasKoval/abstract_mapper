@@ -17,11 +17,7 @@ class AbstractMapper
   #
   class Node
 
-    # @!attribute [r] attributes
-    #
-    # @return [Hash] The hash of node-specific attributes
-    #
-    attr_reader :attributes
+    include Virtus.model
 
     # @!attribute [r] block
     #
@@ -30,9 +26,9 @@ class AbstractMapper
     attr_reader :block
 
     # @private
-    def initialize(attributes = {}, &block)
-      @attributes = Hash[attributes]
-      @block      = block
+    def initialize(_ = nil, &block)
+      super
+      @block = block
       IceNine.deep_freeze(self)
     end
 

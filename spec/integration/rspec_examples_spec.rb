@@ -17,7 +17,7 @@ describe "rspec examples" do
     end
 
     it_behaves_like :mapping_immutable_input do
-      let(:attributes) { { foo: :bar } }
+      let(:attributes) { { keys: { foo: :bar } } }
 
       let(:input)      { { foo: :FOO, baz: :BAZ } }
       let(:output)     { { bar: :FOO, baz: :BAZ } }

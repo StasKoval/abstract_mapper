@@ -1,84 +1,115 @@
 # encoding: utf-8
 
-describe AbstractMapper::Node do
+class AbstractMapper # namespace
 
-  let(:test)       { AbstractMapper::Test::Node = Class.new(described_class) }
-  let(:node)       { test.new(attributes) }
-  let(:attributes) { { foo: :FOO, bar: :BAR } }
+  describe AbstractMapper::Node do
 
-  describe ".new" do
-
-    subject { node }
-    it { is_expected.to be_frozen }
-
-  end # describe .new
-
-  describe "#attributes" do
-
-    subject { node.attributes }
-
-    it { is_expected.to eql attributes }
-    it { is_expected.to be_frozen      }
-
-    it "doesn't freeze the source" do
-      expect { subject }.not_to change { attributes.frozen? }
+    let(:test) do
+      Test::Node = Class.new(described_class) do
+        attribute :foo
+        attribute :bar
+      end
     end
 
-  end # describe #attributes
+    let(:node)       { test.new(attributes, &block) }
+    let(:attributes) { { foo: :FOO, bar: :BAR }     }
+    let(:block)      { nil                          }
 
-  describe "#block" do
+    describe ".new" do
 
-    subject { node.block }
+      subject { node }
 
-    context "when block is absent" do
+      it "initializes attributes" do
+        expect(subject.foo).to eql :FOO
+        expect(subject.bar).to eql :BAR
+      end
 
-      let(:node) { test.new(attributes) }
-      it { is_expected.to eql nil }
+      it { is_expected.to be_frozen }
 
-    end # context
+      it "doesn't freeze the source" do
+        expect { subject }.not_to change { attributes.frozen? }
+      end
 
-    context "when block is present" do
+    end # describe .new
 
-      let(:block) { proc { :foo }                 }
-      let(:node)  { test.new(attributes, &block) }
-      it { is_expected.to eql block }
+    describe "#attributes" do
 
-    end # context
+      subject { node.attributes }
 
-  end # describe #block
+      it { is_expected.to eql attributes }
 
-  describe "#to_s" do
+      context "by default" do
 
-    subject { node.to_s }
+        let(:node) { test.new }
+        it { is_expected.to eql(foo: nil, bar: nil) }
 
-    context "without attributes" do
+      end # context
 
-      let(:node) { test.new }
-      it { is_expected.to eql "Node" }
+    end # describe #attributes
 
-    end # context
+    describe "#block" do
 
-    context "with attributes" do
+      subject { node.block }
 
-      let(:node) { test.new(attributes) }
-      it { is_expected.to eql "Node(foo: :FOO, bar: :BAR)" }
+      context "when block is absent" do
 
-    end # context
+        it { is_expected.to eql nil }
 
-  end # describe #to_s
+      end # context
 
-  describe "#inspect" do
+      context "when block is present" do
 
-    subject { node.inspect }
-    it { is_expected.to eql "<Node(foo: :FOO, bar: :BAR)>" }
+        let(:block) { proc { :foo }                }
+        it { is_expected.to eql block }
 
-  end # describe #inspect
+      end # context
 
-  describe "#transproc" do
+    end # describe #block
 
-    subject { node.transproc[:foo] }
-    it { is_expected.to eql :foo }
+    describe "#to_s" do
 
-  end # describe #transproc
+      subject { node.to_s }
 
-end # describe AbstractMapper::Node
+      context "with uninitialized attributes" do
+
+        let(:node) { test.new }
+        it { is_expected.to eql "Node(foo: nil, bar: nil)" }
+
+      end # context
+
+      context "with initialized attributes" do
+
+        let(:node) { test.new(attributes) }
+        it { is_expected.to eql "Node(foo: :FOO, bar: :BAR)" }
+
+      end # context
+
+      context "without attributes" do
+
+        let(:node) { described_class.new }
+        it { is_expected.to eql "Node" }
+
+      end # context
+
+    end # describe #to_s
+
+    describe "#inspect" do
+
+      subject { node.inspect }
+      it { is_expected.to eql "<Node(foo: :FOO, bar: :BAR)>" }
+
+    end # describe #inspect
+
+    describe "#transproc" do
+
+      subject { node.transproc }
+
+      it "returns the identity function" do
+        expect(subject[:foo]).to eql :foo
+      end
+
+    end # describe #transproc
+
+  end # describe AbstractMapper::Node
+
+end # class AbstractMapper

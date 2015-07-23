@@ -62,7 +62,7 @@ The following example represents an oversimplified version of the [faceter] gem.
 
 Every node should implement the `#transproc` method that transforms some input data to the output.
 
-When you need attributes, assign them from hash via initializer:
+When you need attributes, assign them using [virtus] method `attribute`:
 
 ```ruby
 require "abstract_mapper"
@@ -81,12 +81,16 @@ module Faceter
 
   # The node to define a renaming of keys in a tuple
   class Rename < AbstractMapper::Node
+    attribute :keys
+
     def transproc
-      Transproc::HashTransformations[:rename_keys, attributes]
+      Transproc::HashTransformations[:rename_keys, keys]
     end
   end
 end
 ```
+
+[virtus]: https://github.com/solnic/virtus
 
 ### Define optimization rules
 
@@ -119,7 +123,7 @@ module Faceter
   # into the one list, containing subnodes (entries) from both sources.
   class CompactLists < AbstractMapper::PairRule
     def optimize?
-      nodes.join(:|) { |n| n.is_a? List }
+      nodes.map { |n| n.is_a? List }.reduce(:&)
     end
 
     def optimize
@@ -130,7 +134,7 @@ module Faceter
   # Two consecutive renames can be merged
   class CompactRenames < AbstractMapper::PairRule
     def optimize?
-      nodes.join(:|) { |n| n.is_a? Rename }
+      nodes.map { |n| n.is_a? Rename }.reduce(:&)
     end
 
     def optimize
@@ -144,16 +148,18 @@ end
 
 Now that both the nodes (transformers) and optimization rules are defined, its time to register them for the mapper.
 
-You can either send argument from command to node constructor as is, or coerce them.
+You can coerce command argumets into node attributes. The coercer is expected to return a hash:
 
 ```ruby
 module Faceter
   class Mapper < AbstractMapper
     configure do
-      command :list,   List
+      command :list, List
 
-      # `:foo, to: :bar` becomes `{ foo: :bar }`
-      command :rename, Rename, -> old, opts { { old => opts.fetch(:to) } }
+      # `:foo, to: :bar` becomes `{ keys: { foo: :bar } }`
+      command :rename, Rename do |name, opts|
+        { keys: { name => opts.fetch(:to) } }
+      end
 
       rule RemoveEmptyLists
       rule CompactLists

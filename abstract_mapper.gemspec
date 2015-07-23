@@ -21,6 +21,7 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency "ice_nine", "~> 0.11"
   gem.add_runtime_dependency "transproc", "~> 0.3"
+  gem.add_runtime_dependency "virtus", "~> 1.0"
 
   gem.add_development_dependency "hexx-rspec", "~> 0.5"
 

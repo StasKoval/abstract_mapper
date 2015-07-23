@@ -5,7 +5,7 @@ class AbstractMapper
   describe AbstractMapper::Settings do
 
     let!(:rule) { Test::Rule = Class.new(SoleRule) }
-    let!(:node) { Test::Node = Class.new(Node)     }
+    let!(:node) { Test::Node = Class.new(Node) { attribute :foo } }
 
     let(:settings) do
       described_class.new do

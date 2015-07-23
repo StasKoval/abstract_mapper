@@ -6,7 +6,7 @@ class AbstractMapper
   # applied to some level of nested input.
   #
   # Unlike the simple node, describing a transformation of data, the
-  # branch carries a collection of subnodes along with methods to [#rebuild]
+  # branch carries a collection of subnodes along with methods to [#update]
   # itself with the same attributes and different subnodes.
   #
   # Tne branch only stores subnodes and composes transformations.
@@ -32,7 +32,7 @@ class AbstractMapper
     # @return [Branch::Node]
 
     # @private
-    def initialize(attributes = {})
+    def initialize(attributes = nil)
       @subnodes = block_given? ? yield : []
       super(attributes, &nil)
     end
@@ -43,7 +43,7 @@ class AbstractMapper
     # @example
     #   branch = Branch.new(:foo)
     #   # => <Branch(:foo) []>
-    #   branch.rebuild { Node.new(:bar) }
+    #   branch.update { Node.new(:bar) }
     #   # => <Branch(:foo) [<Node(:bar)>]>
     #
     # @param [Proc] block
@@ -53,8 +53,8 @@ class AbstractMapper
     #
     # @yield block
     #
-    def rebuild(&block)
-      self.class.new(attributes, &block)
+    def update(&block)
+      self.class.new(self, &block)
     end
 
     # @!method each
@@ -73,7 +73,7 @@ class AbstractMapper
     # @return [AbstractMapper::Branch]
     #
     def <<(other)
-      rebuild { entries << other }
+      update { entries << other }
     end
 
     # The composition of transformations from all subnodes of the branch

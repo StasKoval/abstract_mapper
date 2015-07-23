@@ -4,9 +4,9 @@ class AbstractMapper
 
   describe AbstractMapper::Builder do
 
-    let!(:test) { Class.new(described_class)    }
-    let!(:foo)  { Test::Foo = Class.new(Node)   }
-    let!(:bar)  { Test::Bar = Class.new(Branch) }
+    let!(:test) { Class.new(described_class)                     }
+    let!(:foo)  { Test::Foo = Class.new(Node) { attribute :foo } }
+    let!(:bar)  { Test::Bar = Class.new(Branch)                  }
 
     let(:builder)  { test.new tree }
     let(:tree)     { Test::Foo.new }

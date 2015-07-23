@@ -5,8 +5,8 @@ class AbstractMapper
   describe AbstractMapper::DSL do
 
     let!(:dsl) { Class.new { extend DSL } }
-    let!(:foo) { Test::Foo = Class.new(Node)    }
-    let!(:bar) { Test::Bar = Class.new(Branch)  }
+    let!(:foo) { Test::Foo = Class.new(Node) { attribute :foo } }
+    let!(:bar) { Test::Bar = Class.new(Branch) { attribute :bar } }
 
     let!(:rule) do
       Test::Rule = Class.new(PairRule) do

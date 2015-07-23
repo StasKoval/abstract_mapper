@@ -15,7 +15,11 @@ describe AbstractMapper::Branch do
   let(:node2)  { foo.new }
   let(:node3)  { foo.new }
   let(:branch) { test.new(foo: :FOO) { [node1, node2] } }
-  let(:test)   { AbstractMapper::Test::Foo = Class.new(described_class) }
+  let(:test) do
+    AbstractMapper::Test::Foo = Class.new(described_class) do
+      attribute :foo
+    end
+  end
 
   describe ".new" do
 
@@ -40,6 +44,32 @@ describe AbstractMapper::Branch do
 
   end # describe .new
 
+  describe "#attributes" do
+
+    subject { branch.attributes }
+
+    context "initialized" do
+
+      it { is_expected.to eql(foo: :FOO) }
+
+    end # context
+
+    context "not initialized" do
+
+      let(:branch) { test.new }
+      it { is_expected.to eql(foo: nil) }
+
+    end # context
+
+    context "not defined" do
+
+      let(:branch) { described_class.new }
+      it { is_expected.to eql({}) }
+
+    end # context
+
+  end # describe #attributes
+
   describe "#block" do
 
     subject { branch.block }
@@ -47,21 +77,21 @@ describe AbstractMapper::Branch do
 
   end # describe #block
 
-  describe "#rebuild" do
+  describe "#update" do
 
-    subject { branch.rebuild { [node2, node3] } }
+    subject { branch.update { [node2, node3] } }
 
     it { is_expected.to be_kind_of test }
 
     it "preserves attributes" do
-      expect(subject.attributes).to eql branch.attributes
+      expect(subject.attributes).to eql(foo: :FOO)
     end
 
     it "assings new subnodes from a block" do
       expect(subject.entries).to eql [node2, node3]
     end
 
-  end # describe #rebuild
+  end # describe #update
 
   describe "#each" do
 

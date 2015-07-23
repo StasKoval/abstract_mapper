@@ -39,8 +39,8 @@ class AbstractMapper
     #
     def update(tree)
       return tree unless tree.is_a? Branch
-      new_tree = tree.rebuild { rules[tree] }
-      new_tree.rebuild { new_tree.map(&method(:update)) }
+      new_tree = tree.update { rules[tree] }
+      new_tree.update { new_tree.map(&method(:update)) }
     end
 
   end # class Optimizer
