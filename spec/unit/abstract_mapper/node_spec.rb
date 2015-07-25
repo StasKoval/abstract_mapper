@@ -32,6 +32,19 @@ class AbstractMapper # namespace
 
     end # describe .new
 
+    describe ".attributes" do
+
+      it "is declared via DSL" do
+        expect(test.attributes).to eql(foo: nil, bar: :BAR)
+      end
+
+      it "is inheritable" do
+        subklass = Class.new(test)
+        expect(subklass.attributes).to eql(test.attributes)
+      end
+
+    end # describe .attributes
+
     describe "#attributes" do
 
       subject { node.attributes }
