@@ -85,6 +85,19 @@ class AbstractMapper
       subling.ancestors.include?(ancestor)
     end
 
+    # Restricts the hash by keys and values of the default one
+    #
+    # @param [Hash] hash
+    # @param [Hash] default_hash
+    #
+    # @return [Hash] <description>
+    #
+    def self.restrict(hash, default_hash)
+      keys = default_hash.keys
+      values = default_hash.merge(hash).values
+      Hash[keys.zip(values)]
+    end
+
   end # module Functions
 
 end # class AbstractMapper

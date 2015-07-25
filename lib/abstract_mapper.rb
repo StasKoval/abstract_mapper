@@ -2,7 +2,6 @@
 
 require "ice_nine"
 require "transproc"
-require "virtus"
 
 require_relative "abstract_mapper/functions"
 

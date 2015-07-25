@@ -6,13 +6,13 @@ class AbstractMapper # namespace
 
     let(:test) do
       Test::Node = Class.new(described_class) do
-        attribute :foo
-        attribute :bar
+        attribute "foo"
+        attribute :bar, default: :BAR
       end
     end
 
     let(:node)       { test.new(attributes, &block) }
-    let(:attributes) { { foo: :FOO, bar: :BAR }     }
+    let(:attributes) { { foo: :FOO }                }
     let(:block)      { nil                          }
 
     describe ".new" do
@@ -36,12 +36,12 @@ class AbstractMapper # namespace
 
       subject { node.attributes }
 
-      it { is_expected.to eql attributes }
+      it { is_expected.to eql({ foo: nil, bar: :BAR }.merge(attributes)) }
 
       context "by default" do
 
         let(:node) { test.new }
-        it { is_expected.to eql(foo: nil, bar: nil) }
+        it { is_expected.to eql(foo: nil, bar: :BAR) }
 
       end # context
 
@@ -73,7 +73,7 @@ class AbstractMapper # namespace
       context "with uninitialized attributes" do
 
         let(:node) { test.new }
-        it { is_expected.to eql "Node(foo: nil, bar: nil)" }
+        it { is_expected.to eql "Node(foo: nil, bar: :BAR)" }
 
       end # context
 
