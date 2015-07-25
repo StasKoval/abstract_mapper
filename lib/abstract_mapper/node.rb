@@ -17,26 +17,7 @@ class AbstractMapper
   #
   class Node
 
-    # Default attributes for the node
-    #
-    # @return [Hash]
-    #
-    def self.attributes
-      @attributes ||= {}
-    end
-
-    # Declares the attribute
-    #
-    # @param [#to_sym] name
-    # @param [Hash] options
-    # @option options [Object] :default
-    #
-    # @return [undefined]
-    #
-    def self.attribute(name, **options)
-      attributes[name.to_sym] = options[:default]
-      define_method(name) { attributes[name.to_sym] }
-    end
+    include Attributes # adds attributes and their DSL
 
     # @!attribute [r] block
     #
@@ -44,15 +25,9 @@ class AbstractMapper
     #
     attr_reader :block
 
-    # @!attribute [r] attributes
-    #
-    # @return [Hash] The attributes of the node
-    #
-    attr_reader :attributes
-
     # @private
-    def initialize(attributes = {}, &block)
-      @attributes = Functions[:restrict, self.class.attributes][attributes]
+    def initialize(_ = {}, &block)
+      super
       @block      = block
       IceNine.deep_freeze(self)
     end
