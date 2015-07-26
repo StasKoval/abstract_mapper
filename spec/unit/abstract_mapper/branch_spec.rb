@@ -4,6 +4,8 @@ describe AbstractMapper::Branch do
 
   let(:foo) do
     class Foo < AbstractMapper::Node
+      attribute :foo
+
       def transproc
         AbstractMapper::Functions[-> v { "#{v}-1" }]
       end
@@ -11,9 +13,9 @@ describe AbstractMapper::Branch do
     Foo
   end
 
-  let(:node1)  { foo.new }
-  let(:node2)  { foo.new }
-  let(:node3)  { foo.new }
+  let(:node1)  { foo.new foo: :FOO }
+  let(:node2)  { foo.new foo: :BAR }
+  let(:node3)  { foo.new foo: :BAZ }
   let(:branch) { test.new(foo: :FOO) { [node1, node2] } }
   let(:test) do
     AbstractMapper::Test::Foo = Class.new(described_class) do
@@ -163,5 +165,39 @@ describe AbstractMapper::Branch do
     end # context
 
   end # describe #to_s
+
+  describe "#eql?" do
+
+    subject { branch.eql? other }
+
+    context "with the same type, attributes and subnodes" do
+
+      let(:other) { test.new(foo: :FOO) { [node1, node2] } }
+      it { is_expected.to eql true }
+
+    end # context
+
+    context "with another type" do
+
+      let(:other) { Class.new(test).new(foo: :FOO) { [node1, node2] } }
+      it { is_expected.to eql false }
+
+    end # context
+
+    context "with other attributes" do
+
+      let(:other) { test.new(foo: :BAR) { [node1, node2] } }
+      it { is_expected.to eql false }
+
+    end # context
+
+    context "with other subnodes" do
+
+      let(:other) { test.new(foo: :FOO) { [node1, node3] } }
+      it { is_expected.to eql false }
+
+    end # context
+
+  end # describe #eql?
 
 end # describe Branch

@@ -53,8 +53,8 @@ class AbstractMapper
     #
     # @yield block
     #
-    def update(&block)
-      self.class.new(attributes, &block)
+    def update
+      self.class.new(attributes) { yield }
     end
 
     # @!method each
@@ -95,6 +95,16 @@ class AbstractMapper
     #
     def to_s
       "#{super} [#{map(&:inspect).join(", ")}]"
+    end
+
+    # Checks equality of branches by type, attributes and subnodes
+    #
+    # @param [Other] other
+    #
+    # @return [Boolean]
+    #
+    def eql?(other)
+      super && entries.eql?(other.entries)
     end
 
     private
