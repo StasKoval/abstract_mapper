@@ -106,6 +106,33 @@ class AbstractMapper # namespace
 
     end # describe #to_s
 
+    describe "#==" do
+
+      subject { node == other }
+
+      context "node with the same type and attributes" do
+
+        let(:other) { test.new(attributes) }
+        it { is_expected.to eql true }
+
+      end # context
+
+      context "node with other type" do
+
+        let(:other) { Class.new(test).new(attributes) }
+        it { is_expected.to eql false }
+
+      end # context
+
+      context "node with other attributes" do
+
+        let(:other) { test.new }
+        it { is_expected.to eql false }
+
+      end # context
+
+    end # describe #==
+
     describe "#inspect" do
 
       subject { node.inspect }

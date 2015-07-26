@@ -18,6 +18,7 @@ class AbstractMapper
   class Node
 
     include Attributes # adds attributes and their DSL
+    include Comparable
 
     # @!attribute [r] block
     #
@@ -58,6 +59,17 @@ class AbstractMapper
     def to_s
       "#{__name__}#{__attributes__}"
     end
+
+    # Compares the node to another one by type and attributes
+    #
+    # @param [Object] other
+    #
+    # @return [Boolean]
+    #
+    def ==(other)
+      other.instance_of?(self.class) && attributes.eql?(other.attributes)
+    end
+    alias_method :eql?, :==
 
     private
 

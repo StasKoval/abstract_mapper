@@ -16,7 +16,7 @@ shared_context :rule do
 
   let(:rule) { described_class }
 
-  subject { rule.new(*nodes).call.inspect }
+  subject { rule.new(*nodes).call }
 
 end # shared context
 
@@ -25,7 +25,7 @@ shared_examples :skipping_nodes do
   include_context :rule
 
   it do
-    is_expected.to eql(nodes.inspect), <<-REPORT.gsub(/.+\|/, "")
+    is_expected.to eql(nodes), <<-REPORT.gsub(/.+\|/, "")
       |
       |#{rule}
       |
@@ -44,7 +44,7 @@ shared_examples :optimizing_nodes do
   include_context :rule
 
   it do
-    is_expected.to eql(optimized.inspect), <<-REPORT.gsub(/.+\|/, "")
+    is_expected.to eql(optimized), <<-REPORT.gsub(/.+\|/, "")
       |
       |#{rule}
       |
