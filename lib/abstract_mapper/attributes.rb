@@ -53,7 +53,7 @@ class AbstractMapper
       #
       # @return [undefined]
       #
-      def attribute(name, **options)
+      def attribute(name, options = {})
         attributes[name.to_sym] = options[:default]
         define_method(name) { attributes[name.to_sym] }
       end
