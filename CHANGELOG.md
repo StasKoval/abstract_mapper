@@ -1,4 +1,4 @@
-## Prepared for the next version
+## v0.0.2 2015-08-06
 
 ### Added
 
@@ -30,7 +30,7 @@
 * Added `AbstractMapper::Command` that can convert arguments of the command to the node's (nepalez)
 * Switched to `virtus` attributes (nepalez)
 
-[Compare v0.0.1...HEAD](https://github.com/nepalez/abstract_mapper/compare/v0.0.1...HEAD)
+[Compare v0.0.1...v0.0.2](https://github.com/nepalez/abstract_mapper/compare/v0.0.1...v0.0.2)
 
 ## v0.0.1 2015-07-04
 
