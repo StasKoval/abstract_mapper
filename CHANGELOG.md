@@ -1,3 +1,11 @@
+## v0.0.3 to be released
+
+### Internal
+
+* Extracted `Attributes` to the external gem 'attributes_dsl' (nepalez)
+
+[Compare v0.0.2...HEAD](https://github.com/nepalez/abstract_mapper/compare/v0.0.2...HEAD)
+
 ## v0.0.2 2015-08-06
 
 ### Added

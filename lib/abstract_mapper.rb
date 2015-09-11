@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+require "attributes_dsl"
 require "ice_nine"
 require "transproc"
 
@@ -9,7 +10,6 @@ require_relative "abstract_mapper/errors/unknown_command"
 require_relative "abstract_mapper/errors/wrong_node"
 require_relative "abstract_mapper/errors/wrong_rule"
 
-require_relative "abstract_mapper/attributes"
 require_relative "abstract_mapper/node"
 require_relative "abstract_mapper/branch"
 require_relative "abstract_mapper/command"

@@ -17,7 +17,7 @@ class AbstractMapper
   #
   class Node
 
-    include Attributes # adds attributes and their DSL
+    extend AttributesDSL
     include Comparable
 
     # @!attribute [r] block
