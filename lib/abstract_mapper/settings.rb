@@ -64,7 +64,7 @@ class AbstractMapper
     end
 
     def command(name, node, &block)
-      fn = Functions[:subclass?, Node]
+      fn = Functions[:subclass?, AST::Node]
       fail Errors::WrongNode.new(node) unless fn[node]
       @commands = commands << [name, node, block]
     end

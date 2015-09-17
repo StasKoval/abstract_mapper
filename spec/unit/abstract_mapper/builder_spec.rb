@@ -4,9 +4,9 @@ class AbstractMapper
 
   describe AbstractMapper::Builder do
 
-    let!(:test) { Class.new(described_class)                     }
-    let!(:foo)  { Test::Foo = Class.new(Node) { attribute :foo } }
-    let!(:bar)  { Test::Bar = Class.new(Branch)                  }
+    let!(:test) { Class.new(described_class)                          }
+    let!(:foo)  { Test::Foo = Class.new(AST::Node) { attribute :foo } }
+    let!(:bar)  { Test::Bar = Class.new(AST::Branch)                  }
 
     let(:builder)  { test.new tree }
     let(:tree)     { Test::Foo.new }
@@ -31,7 +31,7 @@ class AbstractMapper
         subject { test.update }
 
         it "is an empty branch" do
-          expect(subject).to be_instance_of AbstractMapper::Branch
+          expect(subject).to be_instance_of AST::Branch
           expect(subject.entries).to be_empty
         end
 

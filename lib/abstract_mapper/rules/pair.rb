@@ -36,13 +36,13 @@ class AbstractMapper
 
       # @!attribute [r] node
       #
-      # @return [AbstractMapper::Node] The left node in the pair
+      # @return [AbstractMapper::AST::Node] The left node in the pair
       #
       attr_reader :left
 
       # @!attribute [r] node
       #
-      # @return [AbstractMapper::Node] The right node in the pair
+      # @return [AbstractMapper::AST::Node] The right node in the pair
       #
       attr_reader :right
 
@@ -50,7 +50,7 @@ class AbstractMapper
       # @!method new(node)
       # Creates a rule applied to the sole node
       #
-      # @param [AbstractMapper::Node] node
+      # @param [AbstractMapper::AST::Node] node
       #
       # @return [AbstractMapper::Rules::Base]
 

@@ -38,7 +38,7 @@ class AbstractMapper
     # @return [AbstractMapper::Branch]
     #
     def update(tree)
-      return tree unless tree.is_a? Branch
+      return tree unless tree.is_a? AST::Branch
       new_tree = tree.update { rules[tree] }
       new_tree.update { new_tree.map(&method(:update)) }
     end

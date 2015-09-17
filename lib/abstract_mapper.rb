@@ -5,19 +5,12 @@ require "ice_nine"
 require "transproc"
 
 require_relative "abstract_mapper/functions"
-
-require_relative "abstract_mapper/errors/unknown_command"
-require_relative "abstract_mapper/errors/wrong_node"
-require_relative "abstract_mapper/errors/wrong_rule"
-
-require_relative "abstract_mapper/node"
-require_relative "abstract_mapper/branch"
+require_relative "abstract_mapper/errors"
+require_relative "abstract_mapper/ast"
 require_relative "abstract_mapper/commands"
 require_relative "abstract_mapper/rules"
-
 require_relative "abstract_mapper/builder"
 require_relative "abstract_mapper/optimizer"
-
 require_relative "abstract_mapper/settings"
 require_relative "abstract_mapper/dsl"
 

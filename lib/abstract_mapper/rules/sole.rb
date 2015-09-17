@@ -35,7 +35,7 @@ class AbstractMapper
 
       # @!attribute [r] node
       #
-      # @return [AbstractMapper::Node] The node to be optimized
+      # @return [AbstractMapper::AST::Node] The node to be optimized
       #
       attr_reader :node
 
@@ -43,7 +43,7 @@ class AbstractMapper
       # @!method new(node)
       # Creates a rule applied to the sole node
       #
-      # @param [AbstractMapper::Node] node
+      # @param [AbstractMapper::AST::Node] node
       #
       # @return [AbstractMapper::Rules::Base]
 

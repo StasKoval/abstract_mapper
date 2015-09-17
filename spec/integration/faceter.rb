@@ -14,13 +14,13 @@ shared_context "Faceter" do
       end
 
       # Nodes
-      class List < AbstractMapper::Branch
+      class List < AbstractMapper::AST::Branch
         def transproc
           Functions[:map_array, super]
         end
       end
 
-      class Rename < AbstractMapper::Node
+      class Rename < AbstractMapper::AST::Node
         attribute :keys
 
         def transproc

@@ -73,7 +73,7 @@ class AbstractMapper
 
       context "when the klass is a branch" do
 
-        let(:klass) { Class.new(Branch) }
+        let(:klass) { Class.new(AST::Branch) }
 
         it "builds a branch" do
           expect(klass).to receive(:new) do |args, &blk|

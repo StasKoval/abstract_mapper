@@ -12,7 +12,7 @@ class AbstractMapper
 
       # @private
       def initialize(node)
-        super "#{node} is not a subclass of AbstractMapper::Node"
+        super "#{node} is not a subclass of AbstractMapper::AST::Node"
         IceNine.deep_freeze(self)
       end
 

@@ -39,7 +39,7 @@ class AbstractMapper
     #
     # @return (see #tree)
     #
-    def self.update(node = Branch.new, &block)
+    def self.update(node = AST::Branch.new, &block)
       new(node, &block).tree
     end
 
@@ -72,7 +72,7 @@ class AbstractMapper
 
     def method_missing(name, *args, &block)
       node  = @commands[name].call(*args, &block)
-      @tree = tree << (node.is_a?(Branch) ? update(node, &block) : node)
+      @tree = tree << (node.is_a?(AST::Branch) ? update(node, &block) : node)
     end
 
     def respond_to_missing?(*)

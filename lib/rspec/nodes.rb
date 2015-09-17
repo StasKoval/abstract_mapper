@@ -20,7 +20,7 @@ shared_examples :creating_immutable_node do
 
   subject { node }
 
-  it { is_expected.to be_kind_of AbstractMapper::Node }
+  it { is_expected.to be_kind_of AbstractMapper::AST::Node }
   it { is_expected.to be_frozen, "expected #{subject.inspect} to be immutable" }
 
 end # shared examples
@@ -31,7 +31,7 @@ shared_examples :creating_immutable_branch do
 
   subject { node }
 
-  it { is_expected.to be_kind_of AbstractMapper::Branch }
+  it { is_expected.to be_kind_of AbstractMapper::AST::Branch }
   it { is_expected.to be_frozen, "expected #{subject.inspect} to be immutable" }
 
 end # shared examples

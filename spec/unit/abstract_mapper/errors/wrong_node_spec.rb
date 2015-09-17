@@ -14,7 +14,9 @@ describe AbstractMapper::Errors::WrongNode do
   describe "#message" do
 
     subject { error.message }
-    it { is_expected.to eql "Symbol is not a subclass of AbstractMapper::Node" }
+    it do
+      is_expected.to eql "Symbol is not a subclass of AbstractMapper::AST::Node"
+    end
 
   end # describe #message
 

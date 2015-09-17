@@ -28,16 +28,16 @@ class AbstractMapper # namespace
 
       let(:rules) { Rules.new([rule])           }
       let(:rule)  { Class.new(Rules::Pair)      }
-      let(:tree)  { Branch.new { [foo3, bar1] } }
+      let(:tree)  { AST::Branch.new { [foo3, bar1] } }
 
       let(:foo1) { Test::Foo.new(n: 1)                  }
       let(:foo2) { Test::Foo.new(n: 2)                  }
       let(:foo3) { Test::Foo.new(n: 3)                  }
       let(:bar1) { Test::Bar.new(n: 4) { [foo1, foo2] } }
 
-      before { Test::Foo = Class.new(Node) { attribute :n }            }
-      before { Test::Bar = Class.new(Branch)                           }
-      before { rule.send(:define_method, :optimize?) { true }          }
+      before { Test::Foo = Class.new(AST::Node) { attribute :n } }
+      before { Test::Bar = Class.new(AST::Branch) }
+      before { rule.send(:define_method, :optimize?) { true } }
       before { rule.send(:define_method, :optimize)  { nodes.reverse } }
 
       it "optimizes the tree deeply" do

@@ -5,8 +5,8 @@ class AbstractMapper
   describe AbstractMapper::DSL do
 
     let!(:dsl) { Class.new { extend DSL } }
-    let!(:foo) { Test::Foo = Class.new(Node) { attribute :foo } }
-    let!(:bar) { Test::Bar = Class.new(Branch) { attribute :bar } }
+    let!(:foo) { Test::Foo = Class.new(AST::Node) { attribute :foo } }
+    let!(:bar) { Test::Bar = Class.new(AST::Branch) { attribute :bar } }
 
     let!(:rule) do
       Test::Rule = Class.new(Rules::Pair) do
@@ -57,7 +57,7 @@ class AbstractMapper
 
       subject { dsl.finalize }
 
-      it { is_expected.to be_kind_of Branch }
+      it { is_expected.to be_kind_of AST::Branch }
 
       it "is optimized" do
         desc = "<Root [<Bar(bar: :baz) [<Foo(foo: :quxx)>]>, <Foo(foo: :foo)>]>"

@@ -46,9 +46,9 @@ class AbstractMapper
 
     # Applies all the registered rules to the array of nodes
     #
-    # @param [Array<AbstractMapper::Node>] nodes
+    # @param [Array<AbstractMapper::AST::Node>] nodes
     #
-    # @return [Array<AbstractMapper::Node>] The optimized array of nodes
+    # @return [Array<AbstractMapper::AST::Node>] The optimized array of nodes
     #
     def [](nodes)
       @transproc ? @transproc[nodes] : nodes

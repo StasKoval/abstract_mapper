@@ -1,9 +1,9 @@
 # encoding: utf-8
 
-describe AbstractMapper::Branch do
+describe AbstractMapper::AST::Branch do
 
   let(:foo) do
-    class Foo < AbstractMapper::Node
+    class Foo < AbstractMapper::AST::Node
       attribute :foo
 
       def transproc
@@ -200,4 +200,4 @@ describe AbstractMapper::Branch do
 
   end # describe #eql?
 
-end # describe Branch
+end # describe AbstractMapper::AST::Branch

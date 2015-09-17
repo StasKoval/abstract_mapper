@@ -4,11 +4,11 @@ class AbstractMapper
 
   describe AbstractMapper::Commands do
 
-    let(:foo)       { Test::Foo = Class.new(AbstractMapper::Branch) }
-    let(:bar)       { Test::Bar = Class.new(AbstractMapper::Node)   }
-    let(:test)      { Class.new(described_class)                    }
-    let(:commands)  { test.new                                      }
-    let(:converter) { -> v { v.reverse }                            }
+    let(:foo)       { Test::Foo = Class.new(AbstractMapper::AST::Branch) }
+    let(:bar)       { Test::Bar = Class.new(AbstractMapper::AST::Node) }
+    let(:test)      { Class.new(described_class) }
+    let(:commands)  { test.new }
+    let(:converter) { -> v { v.reverse } }
 
     describe ".new" do
 

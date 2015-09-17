@@ -2,7 +2,7 @@
 
 class AbstractMapper # namespace
 
-  describe AbstractMapper::Node do
+  describe AbstractMapper::AST::Node do
 
     let(:test) do
       Test::Node = Class.new(described_class) do
@@ -137,6 +137,6 @@ class AbstractMapper # namespace
 
     end # describe #transproc
 
-  end # describe AbstractMapper::Node
+  end # describe AbstractMapper::AST::Node
 
 end # class AbstractMapper

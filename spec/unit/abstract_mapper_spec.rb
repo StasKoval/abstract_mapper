@@ -11,7 +11,7 @@ describe AbstractMapper do
   let(:tree) { klass.new }
 
   let(:klass) do
-    Class.new(AbstractMapper::Branch) do
+    Class.new(AbstractMapper::AST::Branch) do
       def transproc
         -> v { "called: #{v}" }
       end

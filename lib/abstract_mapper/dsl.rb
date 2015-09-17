@@ -46,7 +46,7 @@ class AbstractMapper
     private # DSL commands
 
     def tree
-      @tree ||= Branch.new
+      @tree ||= AST::Branch.new
     end
 
     def respond_to_missing?(*)

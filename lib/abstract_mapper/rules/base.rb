@@ -28,14 +28,14 @@ class AbstractMapper
 
       # @!attribute [r] nodes
       #
-      # @return [Array<AbstractMapper::Node>]
+      # @return [Array<AbstractMapper::AST::Node>]
       #   Either one or two nodes to be optimized
       #
       attr_reader :nodes
 
       # Initializes the rule for a sole node, or a pair of consecutive nodes
       #
-      # @param [Array<AbstractMapper::Node>] nodes
+      # @param [Array<AbstractMapper::AST::Node>] nodes
       #
       # @return [AbstractMapper::Rules::Base]
       #
@@ -61,7 +61,7 @@ class AbstractMapper
 
       # Returns the result of the rule applied to the initialized [#nodes]
       #
-      # @return [Array<AbstractMapper::Node>]
+      # @return [Array<AbstractMapper::AST::Node>]
       #
       def call
         optimize? ? [optimize].flatten.compact : nodes

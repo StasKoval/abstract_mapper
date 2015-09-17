@@ -44,7 +44,7 @@ class AbstractMapper
       def initialize(name, klass, converter = nil)
         @name = name.to_sym
         @klass = klass
-        @branch = Functions[:subclass?, Branch][klass]
+        @branch = Functions[:subclass?, AST::Branch][klass]
         @converter = converter || proc { |args = {}| args }
         IceNine.deep_freeze(self)
       end
@@ -55,7 +55,7 @@ class AbstractMapper
       #   The argument of the command
       # @param [Proc] block
       #
-      # @return [AbstractMapper::Node]
+      # @return [AbstractMapper::AST::Node]
       #
       def call(*args, &block)
         block = nil if @branch
