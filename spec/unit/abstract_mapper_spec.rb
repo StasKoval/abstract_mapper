@@ -7,8 +7,7 @@ describe AbstractMapper do
     test.new
   end
 
-  let(:test) { Class.new(described_class)  }
-
+  let(:test) { Class.new(described_class) }
   let(:tree) { klass.new }
 
   let(:klass) do

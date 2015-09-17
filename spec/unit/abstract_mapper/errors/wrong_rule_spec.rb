@@ -15,7 +15,8 @@ describe AbstractMapper::Errors::WrongRule do
 
     subject { error.message }
     it do
-      is_expected.to eql "Symbol is not a subclass of AbstractMapper::Rule"
+      is_expected
+        .to eql "Symbol is not a subclass of AbstractMapper::Rules::Base"
     end
 
   end # describe #message

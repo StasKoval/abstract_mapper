@@ -58,7 +58,7 @@ class AbstractMapper
     private
 
     def rule(value)
-      fn = Functions[:subclass?, Rule]
+      fn = Functions[:subclass?, Rules::Base]
       fail Errors::WrongRule.new(value) unless fn[value]
       @rules = rules << value
     end

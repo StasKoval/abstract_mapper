@@ -59,7 +59,7 @@ class AbstractMapper # namespace
 
       context "when block is present" do
 
-        let(:block) { proc { :foo }                }
+        let(:block) { proc { :foo }   }
         it { is_expected.to eql block }
 
       end # context

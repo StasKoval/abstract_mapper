@@ -1,18 +1,18 @@
 # encoding: utf-8
 
-describe AbstractMapper::PairRule do
+describe AbstractMapper::Rules::Pair do
 
-  let(:rule)  { test.new(left, right)                           }
-  let(:test)  { AbstractMapper::Test::Rule = Class.new(described_class) }
-  let(:nodes) { [left, right]                                   }
-  let(:left)  { AbstractMapper::Node.new                        }
-  let(:right) { AbstractMapper::Node.new                        }
+  let(:rule)  { test.new(left, right) }
+  let(:test)  { Class.new(described_class) }
+  let(:nodes) { [left, right] }
+  let(:left)  { AbstractMapper::Node.new   }
+  let(:right) { AbstractMapper::Node.new   }
 
   describe ".new" do
 
     subject { rule }
 
-    it { is_expected.to be_kind_of AbstractMapper::Rule }
+    it { is_expected.to be_kind_of AbstractMapper::Rules::Base }
     it { is_expected.to be_frozen }
 
     it "requires second argument" do
@@ -49,4 +49,4 @@ describe AbstractMapper::PairRule do
 
   end # describe #transproc
 
-end # describe AbstractMapper::PairRule
+end # describe AbstractMapper::Rules::Pair

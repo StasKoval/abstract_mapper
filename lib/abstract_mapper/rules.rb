@@ -2,6 +2,10 @@
 
 class AbstractMapper
 
+  require_relative "rules/base"
+  require_relative "rules/sole"
+  require_relative "rules/pair"
+
   # Registry of DSL rules applicable to nodes of AST
   #
   # @api private
@@ -10,7 +14,8 @@ class AbstractMapper
 
     # @!attribute [r] registry
     #
-    # @return [Array<AbstractMapper::SoleRule>] list of rules applicable to AST
+    # @return [Array<AbstractMapper::Rules::Base>]
+    #   the list of rules applicable to AST
     #
     attr_reader :registry
 
@@ -18,7 +23,7 @@ class AbstractMapper
     # @!method new(registry)
     # Creates a registry with array of rules
     #
-    # @param [Array<AbstractMapper::SoleRule>] registry Array of rules
+    # @param [Array<AbstractMapper::Rules::Base>] registry Array of rules
     #
     # @return [AbstractMapper::Rules]
 
@@ -31,7 +36,7 @@ class AbstractMapper
 
     # Returns the copy of current registry with the new rule added
     #
-    # @param [AbstractMapper::SoleRule] other
+    # @param [AbstractMapper::Rules::Base] other
     #
     # @return (see #new)
     #

@@ -46,9 +46,6 @@ class AbstractMapper
     #   branch.update { Node.new(:bar) }
     #   # => <Branch(:foo) [<Node(:bar)>]>
     #
-    # @param [Proc] block
-    #   The block that should return an array of subnodes for the branch
-    #
     # @return [AbstractMapper::Branch]
     #
     # @yield block

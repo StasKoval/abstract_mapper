@@ -27,7 +27,7 @@ class AbstractMapper # namespace
       subject { optimizer.update(tree) }
 
       let(:rules) { Rules.new([rule])           }
-      let(:rule)  { Class.new(PairRule)         }
+      let(:rule)  { Class.new(Rules::Pair)      }
       let(:tree)  { Branch.new { [foo3, bar1] } }
 
       let(:foo1) { Test::Foo.new(n: 1)                  }

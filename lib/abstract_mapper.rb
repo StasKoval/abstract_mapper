@@ -16,9 +16,6 @@ require_relative "abstract_mapper/command"
 require_relative "abstract_mapper/commands"
 require_relative "abstract_mapper/builder"
 
-require_relative "abstract_mapper/rule"
-require_relative "abstract_mapper/sole_rule"
-require_relative "abstract_mapper/pair_rule"
 require_relative "abstract_mapper/rules"
 require_relative "abstract_mapper/optimizer"
 

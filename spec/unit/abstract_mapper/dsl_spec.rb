@@ -9,7 +9,7 @@ class AbstractMapper
     let!(:bar) { Test::Bar = Class.new(Branch) { attribute :bar } }
 
     let!(:rule) do
-      Test::Rule = Class.new(PairRule) do
+      Test::Rule = Class.new(Rules::Pair) do
         def optimize?
           left.instance_of?(Test::Foo)
         end

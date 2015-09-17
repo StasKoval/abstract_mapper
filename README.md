@@ -94,19 +94,19 @@ end
 
 ### Define optimization rules
 
-AbstractMapper defines 2 rules `AbstractMapper::SoleRule` and `AbstractMapper::PairRule`. The first one is applicable to every single node to check if it can be optimized by itself, the second one takes two consecutive nodes and either return them unchanged, or merges them into more time-efficient node.
+AbstractMapper defines 2 rules `AbstractMapper::Rules::Sole` and `AbstractMapper::Rules::Pair`. The first one is applicable to every single node to check if it can be optimized by itself, the second one takes two consecutive nodes and either return them unchanged, or merges them into more time-efficient node.
 
 For every rule you need to define two methods:
 
 * `#optimize?` that defines if the rule is applicable to given node (or pair of nodes)
 * `#optimize` that returns either array of changed nodes, or one node, or nothing when the node(s) should be removed from the tree
 
-Use `#nodes` method to access nodes to be optimized. Base class `AbstractMapper::SoleRule` also defines the `#node` method, while `AbstractMapper::PairRule` defines `#left` and `#right` for the corresponding parts of the pair.
+Use `#nodes` method to access nodes to be optimized. Base class `AbstractMapper::Rules::Sole` also defines the `#node` method, while `AbstractMapper::Rules::Pair` defines `#left` and `#right` for the corresponding parts of the pair.
 
 ```ruby
 module Faceter
   # The empty lists are useless, because they does nothing at all
-  class RemoveEmptyLists < AbstractMapper::SoleRule
+  class RemoveEmptyLists < AbstractMapper::Rules::Sole
     def optimize?
       node.is_a?(List) && node.empty?
     end
@@ -121,7 +121,7 @@ module Faceter
   #
   # That's why when we meet two consecutive lists, we have to merge them
   # into the one list, containing subnodes (entries) from both sources.
-  class CompactLists < AbstractMapper::PairRule
+  class CompactLists < AbstractMapper::Rules::Pair
     def optimize?
       nodes.map { |n| n.is_a? List }.reduce(:&)
     end
@@ -132,7 +132,7 @@ module Faceter
   end
 
   # Two consecutive renames can be merged
-  class CompactRenames < AbstractMapper::PairRule
+  class CompactRenames < AbstractMapper::Rules::Pair
     def optimize?
       nodes.map { |n| n.is_a? Rename }.reduce(:&)
     end

@@ -1,4 +1,11 @@
-## v0.0.3 to be released
+## v0.1.0 to be released
+
+### Changed (backward-incompatible)
+
+* Rules are moved to the `Rules` namespace (nepalez):
+  - `Rule`     -> `Rules::Base`
+  - `SoleRule` -> `Rules::Sole`
+  - `PairRule` -> `Rules::Pair`
 
 ### Internal
 

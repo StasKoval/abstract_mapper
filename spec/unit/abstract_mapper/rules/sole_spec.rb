@@ -1,9 +1,9 @@
 # encoding: utf-8
 
-describe AbstractMapper::SoleRule do
+describe AbstractMapper::Rules::Sole do
 
   let(:rule)  { test.new(node) }
-  let(:test)  { AbstractMapper::Test::Rule = Class.new(described_class) }
+  let(:test)  { Class.new(described_class) }
   let(:nodes) { [node] }
   let(:node)  { AbstractMapper::Node.new }
 
@@ -11,7 +11,7 @@ describe AbstractMapper::SoleRule do
 
     subject { rule }
 
-    it { is_expected.to be_kind_of AbstractMapper::Rule }
+    it { is_expected.to be_kind_of AbstractMapper::Rules::Base }
     it { is_expected.to be_frozen }
 
     it "denies second argument" do
@@ -41,4 +41,4 @@ describe AbstractMapper::SoleRule do
 
   end # describe #transproc
 
-end # describe AbstractMapper::SoleRule
+end # describe AbstractMapper::Rules::Sole

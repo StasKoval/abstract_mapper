@@ -3,8 +3,8 @@
 describe AbstractMapper::Rules do
 
   let(:rules) { described_class.new }
-  let(:foo) { AbstractMapper::Test::Foo = Class.new(AbstractMapper::SoleRule) }
-  let(:bar) { AbstractMapper::Test::Bar = Class.new(AbstractMapper::PairRule) }
+  let(:foo) { Class.new(AbstractMapper::Rules::Sole) }
+  let(:bar) { Class.new(AbstractMapper::Rules::Pair) }
 
   describe ".new" do
 
@@ -28,7 +28,7 @@ describe AbstractMapper::Rules do
     context "initialized" do
 
       let(:rules)    { described_class.new registry }
-      let(:registry) { [foo, bar]                 }
+      let(:registry) { [foo, bar] }
 
       it { is_expected.to eql registry }
       it { is_expected.to be_frozen    }

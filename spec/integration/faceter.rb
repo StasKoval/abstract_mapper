@@ -29,7 +29,7 @@ shared_context "Faceter" do
       end
 
       # Rules
-      class CompactLists < AbstractMapper::PairRule
+      class CompactLists < AbstractMapper::Rules::Pair
         def optimize?
           left.is_a?(List) && right.is_a?(List)
         end
@@ -39,7 +39,7 @@ shared_context "Faceter" do
         end
       end
 
-      class CompactRenames < AbstractMapper::PairRule
+      class CompactRenames < AbstractMapper::Rules::Pair
         def optimize?
           left.is_a?(Rename) && right.is_a?(Rename)
         end

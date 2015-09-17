@@ -28,7 +28,7 @@ class AbstractMapper
     describe "#klass" do
 
       subject { command.klass }
-      it { is_expected.to eql klass  }
+      it { is_expected.to eql klass }
 
     end # describe #name
 

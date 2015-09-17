@@ -1,9 +1,9 @@
 # encoding: utf-8
 
-describe AbstractMapper::Rule do
+describe AbstractMapper::Rules::Base do
 
   let(:rule)  { test.new(*nodes) }
-  let(:test)  { AbstractMapper::Test::Rule = Class.new(described_class) }
+  let(:test)  { Class.new(described_class) }
   let(:nodes) { [node] }
   let(:node)  { AbstractMapper::Node.new }
 
@@ -96,4 +96,4 @@ describe AbstractMapper::Rule do
 
   end # describe .transproc
 
-end # describe AbstractMapper::Rule
+end # describe AbstractMapper::Rules::Base

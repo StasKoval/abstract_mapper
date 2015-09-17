@@ -29,7 +29,7 @@ class AbstractMapper
     # @private
     def initialize(_ = {}, &block)
       super
-      @block      = block
+      @block = block
       IceNine.deep_freeze(self)
     end
 
