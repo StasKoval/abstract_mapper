@@ -2,7 +2,7 @@
 
 class AbstractMapper
 
-  describe AbstractMapper::Command do
+  describe AbstractMapper::Commands::Base do
 
     let(:command)   { described_class.new name, klass, converter }
     let(:name)      { "foo"                                      }
@@ -87,6 +87,6 @@ class AbstractMapper
 
     end # describe #call
 
-  end # describe AbstractMapper::Command
+  end # describe AbstractMapper::Commands::Base
 
 end # class AbstractMapper

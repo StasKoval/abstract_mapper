@@ -12,11 +12,10 @@ require_relative "abstract_mapper/errors/wrong_rule"
 
 require_relative "abstract_mapper/node"
 require_relative "abstract_mapper/branch"
-require_relative "abstract_mapper/command"
 require_relative "abstract_mapper/commands"
-require_relative "abstract_mapper/builder"
-
 require_relative "abstract_mapper/rules"
+
+require_relative "abstract_mapper/builder"
 require_relative "abstract_mapper/optimizer"
 
 require_relative "abstract_mapper/settings"

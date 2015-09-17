@@ -2,6 +2,8 @@
 
 class AbstractMapper
 
+  require_relative "commands/base"
+
   # Collection of DSL commands used by the builder
   #
   # @api private
@@ -29,7 +31,7 @@ class AbstractMapper
     # @return [undefined]
     #
     def <<(other)
-      command = Command.new(*other)
+      command = Commands::Base.new(*other)
       self.class.new @registry.merge(command.name => command)
     end
 
@@ -37,7 +39,7 @@ class AbstractMapper
     #
     # @param [#to_sym] name The name of the command
     #
-    # @return [AbstractMapper::Command]
+    # @return [AbstractMapper::Commands::Base]
     #
     # @raise [AbstractMapper::Errors::UnknownCommand]
     #   When unknown command is called

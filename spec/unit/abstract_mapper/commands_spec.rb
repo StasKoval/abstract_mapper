@@ -28,7 +28,7 @@ class AbstractMapper
       subject { commands << ["foo", foo] }
 
       it "returns registered command" do
-        expect(subject["foo"]).to be_kind_of Command
+        expect(subject["foo"]).to be_kind_of Commands::Base
       end
 
       it "complains about unknown command" do
@@ -47,11 +47,11 @@ class AbstractMapper
       it { is_expected.to be_kind_of test }
 
       it "preserves registered commands" do
-        expect(subject[:foo]).to be_kind_of Command
+        expect(subject[:foo]).to be_kind_of Commands::Base
       end
 
       it "registers new command" do
-        expect(subject[:bar]).to be_kind_of Command
+        expect(subject[:bar]).to be_kind_of Commands::Base
         expect(subject[:bar].name).to eql :bar
         expect(subject[:bar].klass).to eql bar
         expect(subject[:bar].converter).to eql converter

@@ -10,6 +10,7 @@
 ### Internal
 
 * Extracted `Attributes` to the external gem 'attributes_dsl' (nepalez)
+* Renamed `Command` to `Commands::Base` (nepalez)
 
 [Compare v0.0.2...HEAD](https://github.com/nepalez/abstract_mapper/compare/v0.0.2...HEAD)
 
