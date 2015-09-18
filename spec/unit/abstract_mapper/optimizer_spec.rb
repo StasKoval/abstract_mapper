@@ -9,30 +9,27 @@ class AbstractMapper # namespace
     let(:rules)     { Rules.new                  }
 
     describe ".new" do
-
       subject { optimizer }
-      it { is_expected.to be_frozen }
 
+      it { is_expected.to be_frozen }
     end # describe .new
 
     describe "#rules" do
-
       subject { optimizer.rules }
-      it { is_expected.to eql rules }
 
+      it { is_expected.to eql rules }
     end # describe #rules
 
     describe "#update" do
+      subject { optimizer.update(input) }
 
-      subject { optimizer.update(tree) }
+      let(:rules) { Rules.new([rule]) }
+      let(:rule)  { Class.new(Rules::Pair) }
+      let(:input) { AST::Branch.new { [foo3, bar1] } }
 
-      let(:rules) { Rules.new([rule])           }
-      let(:rule)  { Class.new(Rules::Pair)      }
-      let(:tree)  { AST::Branch.new { [foo3, bar1] } }
-
-      let(:foo1) { Test::Foo.new(n: 1)                  }
-      let(:foo2) { Test::Foo.new(n: 2)                  }
-      let(:foo3) { Test::Foo.new(n: 3)                  }
+      let(:foo1) { Test::Foo.new(n: 1) }
+      let(:foo2) { Test::Foo.new(n: 2) }
+      let(:foo3) { Test::Foo.new(n: 3) }
       let(:bar1) { Test::Bar.new(n: 4) { [foo1, foo2] } }
 
       before { Test::Foo = Class.new(AST::Node) { attribute :n } }
@@ -41,12 +38,11 @@ class AbstractMapper # namespace
       before { rule.send(:define_method, :optimize)  { nodes.reverse } }
 
       it "optimizes the tree deeply" do
-        expect(tree.inspect)
+        expect(input.inspect)
           .to eql "<Root [<Foo(n: 3)>, <Bar [<Foo(n: 1)>, <Foo(n: 2)>]>]>"
         expect(subject.inspect)
           .to eql "<Root [<Bar [<Foo(n: 2)>, <Foo(n: 1)>]>, <Foo(n: 3)>]>"
       end
-
     end # describe #update
 
   end # describe AbstractMapper::Optimize

@@ -3,7 +3,6 @@
 require "transproc/rspec"
 
 describe AbstractMapper::Functions, "#subclass?" do
-
   let(:klass) { Class.new  }
   let(:modul) { Module.new }
 
@@ -62,5 +61,4 @@ describe AbstractMapper::Functions, "#subclass?" do
     let(:input)  { Module.new.send :extend, modul }
     let(:output) { false }
   end
-
 end # describe AbstractMapper::Functions#subclass?

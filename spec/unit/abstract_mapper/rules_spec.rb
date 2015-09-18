@@ -3,86 +3,73 @@
 describe AbstractMapper::Rules do
 
   let(:rules) { described_class.new }
-  let(:foo) { Class.new(AbstractMapper::Rules::Sole) }
-  let(:bar) { Class.new(AbstractMapper::Rules::Pair) }
+  let(:foo)   { Class.new(AbstractMapper::Rules::Sole) }
+  let(:bar)   { Class.new(AbstractMapper::Rules::Pair) }
 
   describe ".new" do
-
     subject { rules }
-    it { is_expected.to be_frozen }
 
+    it { is_expected.to be_frozen }
   end # describe .new
 
   describe "#registry" do
-
     subject { rules.registry }
 
     context "by default" do
-
       let(:rules) { described_class.new }
+
       it { is_expected.to eql []    }
       it { is_expected.to be_frozen }
-
-    end # context
+    end
 
     context "initialized" do
-
       let(:rules)    { described_class.new registry }
       let(:registry) { [foo, bar] }
 
       it { is_expected.to eql registry }
       it { is_expected.to be_frozen    }
-
-      it "doesn't freezes the source" do
+      it "doesn't freeze a source" do
         expect { subject }.not_to change { registry.frozen? }
       end
-
-    end # context
-
+    end
   end # describe #registry
 
   describe "#<<" do
-
     subject { rules << bar }
 
     let(:rules) { described_class.new [foo] }
 
-    it "updates the registry" do
+    it "returns a collection" do
       expect(subject).to be_kind_of described_class
-      expect(subject.registry).to eql [foo, bar]
     end
 
+    it "updates the registry" do
+      expect(subject.registry).to eql [foo, bar]
+    end
   end # describe #<<
 
   describe "#[]" do
+    subject { rules[nodes] }
 
-    before do
-      foo.send(:define_method, :optimize?) { true          }
-      foo.send(:define_method, :optimize)  { node + 1      }
-      bar.send(:define_method, :optimize?) { left == right }
-      bar.send(:define_method, :optimize)  { left + right  }
-    end
+    let(:nodes) { [1, 1, 2, 5] }
 
     context "when no rule is set" do
-
-      let(:nodes) { [1, 1, 2, 5] }
-
-      subject { rules[nodes] }
       it { is_expected.to eql nodes }
-
-    end # context
+    end
 
     context "when rules are set" do
-
       let(:rules) { described_class.new [foo, bar, foo] }
-      let(:nodes) { [1, 1, 2] }
 
-      subject { rules[nodes] }
-      it { is_expected.to eql [5, 4] }
-      # [1, 1, 2] -foo-> [2, 2, 3] -bar-> [4, 3] -foo-> [5, 4]
+      before do
+        foo.send(:define_method, :optimize?) { true          }
+        foo.send(:define_method, :optimize)  { node + 1      }
+        bar.send(:define_method, :optimize?) { left == right }
+        bar.send(:define_method, :optimize)  { left + right  }
+      end
 
-    end # context
-
+      it { is_expected.to eql [5, 4, 7] }
+      # [1, 1, 2, 5] -foo-> [2, 2, 3, 6] -bar-> [4, 3, 6] -foo-> [5, 4, 7]
+    end
   end # describe #[]
 
 end # describe AbstractMapper::Rules

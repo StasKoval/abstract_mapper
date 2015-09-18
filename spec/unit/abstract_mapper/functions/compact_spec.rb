@@ -3,7 +3,6 @@
 require "transproc/rspec"
 
 describe AbstractMapper::Functions, "#compact" do
-
   let(:fn) { -> a, b { (a == b) ? [a + b] : [a, b] } }
   let(:arguments) { [:compact, fn] }
 
@@ -21,5 +20,4 @@ describe AbstractMapper::Functions, "#compact" do
     let(:input)  { [1, 1, 2, 3, 3] }
     let(:output) { [4, 6]          }
   end
-
 end # describe AbstractMapper::Functions#compact

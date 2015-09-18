@@ -2,7 +2,7 @@
 
 class AbstractMapper
 
-  # The namespace for AST nodes
+  # The namespace for nodes of the abstract syntax tree
   #
   # @author Andrew Kozin <Andrew.Kozin@gmail.com>
   #

@@ -12,55 +12,44 @@ class AbstractMapper
     let(:block)     { proc { :foo }                              }
 
     describe ".new" do
-
       subject { command }
-      it { is_expected.to be_frozen }
 
+      it { is_expected.to be_frozen }
     end # describe .new
 
     describe "#name" do
-
       subject { command.name }
-      it { is_expected.to eql name.to_sym }
 
+      it { is_expected.to eql name.to_sym }
     end # describe #name
 
     describe "#klass" do
-
       subject { command.klass }
-      it { is_expected.to eql klass }
 
+      it { is_expected.to eql klass }
     end # describe #name
 
     describe "#converter" do
-
       subject { command.converter }
 
       context "by default" do
-
         let(:command) { described_class.new name, klass }
 
         it "returns identity function" do
           expect(subject.call(foo: :BAR)).to eql(foo: :BAR)
           expect(subject.call).to eql({})
         end
-
-      end # context
+      end
 
       context "initialized" do
-
         it { is_expected.to eql converter }
-
-      end # context
-
+      end
     end # describe #name
 
     describe "#call" do
-
       subject { command.call(arguments, &block) }
 
       context "when the klass is not a branch" do
-
         it "builds a node" do
           expect(klass).to receive(:new) do |args, &blk|
             expect(args).to eql(converter.call(arguments))
@@ -68,11 +57,9 @@ class AbstractMapper
           end
           subject
         end
-
-      end # context
+      end
 
       context "when the klass is a branch" do
-
         let(:klass) { Class.new(AST::Branch) }
 
         it "builds a branch" do
@@ -82,9 +69,7 @@ class AbstractMapper
           end
           subject
         end
-
-      end # context
-
+      end
     end # describe #call
 
   end # describe AbstractMapper::Commands::Base

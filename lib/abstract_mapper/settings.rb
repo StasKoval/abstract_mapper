@@ -36,22 +36,17 @@ class AbstractMapper
     #
     attr_reader :builder
 
-    # @!scope class
-    # @!method new(&block)
-    # Creates a domain-specific settings with commands and rules initialized
-    # from inside a block
+    # Initializes a domain-specific settings with commands and rules
+    # being set in the block.
     #
     # @param [Proc] block
     #
-    # @return [AbstractMapper::Settings]
-
-    # @private
-    def initialize(&block)
-      __set_rules__
-      __set_commands__
-      __configure__(&block)
-      __set_builder__
-      __set_optimizer__
+    # @yield the block with settings for commands and rules
+    #
+    def initialize(rules = Rules.new, commands = Commands.new, &block)
+      @rules    = rules
+      @commands = commands
+      configure(&block)
       IceNine.deep_freeze(self)
     end
 
@@ -69,24 +64,10 @@ class AbstractMapper
       @commands = commands << [name, node, block]
     end
 
-    def __set_rules__
-      @rules = Rules.new
-    end
-
-    def __set_commands__
-      @commands = Commands.new
-    end
-
-    def __configure__(&block)
+    def configure(&block)
       instance_eval(&block) if block_given?
-    end
-
-    def __set_builder__
       @builder = Class.new(Builder)
       builder.commands = commands
-    end
-
-    def __set_optimizer__
       @optimizer = Optimizer.new(rules)
     end
 

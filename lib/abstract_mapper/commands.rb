@@ -31,7 +31,7 @@ class AbstractMapper
     # @return [undefined]
     #
     def <<(other)
-      command = Commands::Base.new(*other)
+      command = Base.new(*other)
       self.class.new @registry.merge(command.name => command)
     end
 

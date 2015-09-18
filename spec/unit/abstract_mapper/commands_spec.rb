@@ -11,20 +11,18 @@ class AbstractMapper
     let(:converter) { -> v { v.reverse } }
 
     describe ".new" do
+      subject { test.new(registry) }
 
       let(:registry) { { foo: foo, bar: bar } }
-      subject { test.new(registry) }
 
       it { is_expected.to be_frozen }
 
       it "doesn't freeze arguments" do
         expect { subject }.not_to change { registry.frozen? }
       end
-
     end # describe .new
 
     describe "#[]" do
-
       subject { commands << ["foo", foo] }
 
       it "returns registered command" do
@@ -37,11 +35,9 @@ class AbstractMapper
           expect(error.message).to include "baz"
         end
       end
-
     end # describe #[]
 
     describe "#<<" do
-
       subject { commands << ["foo", foo] << ["bar", bar, converter] }
 
       it { is_expected.to be_kind_of test }
@@ -56,7 +52,6 @@ class AbstractMapper
         expect(subject[:bar].klass).to eql bar
         expect(subject[:bar].converter).to eql converter
       end
-
     end # describe #<<
 
   end # describe AbstractMapper::Commands
