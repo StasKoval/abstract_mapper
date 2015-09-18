@@ -1,18 +1,28 @@
-## v0.1.0 to be released
+## v0.1.0 2015-09-18
 
-### Changed (backward-incompatible)
+This version rearranges some classes by adding namespaces and **extends the behaviour of configure**.
+With a new support pre-defined mappers can be inherited deeply with updated set of commands and rules.
 
-* Rules are moved to the `Rules` namespace (nepalez):
-  - `Rule`     -> `Rules::Base`
-  - `SoleRule` -> `Rules::Sole`
-  - `PairRule` -> `Rules::Pair`
+### Added
+
+* `AbstractMapper.configure` now updates the existing settings instead of rewriting them from scratch (nepalez)
+   with reference to issue #1 (faceter#2 by martinciu)
+
+### Changed (backward incompatible!)
+
+* Rules and Nodes were namespaces and renamed (nepalez):
+  - `AbstractMapper::Node`     -> `AbstractMapper::AST::Node`
+  - `AbstractMapper::Branch`   -> `AbstractMapper::AST::Branch`
+  - `AbstractMapper::Rule`     -> `AbstractMapper::Rules::Base`
+  - `AbstractMapper::SoleRule` -> `AbstractMapper::Rules::Sole`
+  - `AbstractMapper::PairRule` -> `AbstractMapper::Rules::Pair`
 
 ### Internal
 
 * Extracted `Attributes` to the external gem 'attributes_dsl' (nepalez)
 * Renamed `Command` to `Commands::Base` (nepalez)
 
-[Compare v0.0.2...HEAD](https://github.com/nepalez/abstract_mapper/compare/v0.0.2...HEAD)
+[Compare v0.0.2...v0.1.0](https://github.com/nepalez/abstract_mapper/compare/v0.0.2...v0.1.0)
 
 ## v0.0.2 2015-08-06
 
