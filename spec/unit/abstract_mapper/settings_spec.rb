@@ -4,15 +4,16 @@ class AbstractMapper
 
   describe AbstractMapper::Settings do
 
-    let!(:rule) { Test::Rule = Class.new(Rules::Sole) }
-    let!(:node) { Test::Node = Class.new(AST::Node) { attribute :foo } }
+    let!(:foo) { Test::Foo = Class.new(AST::Node) { attribute :foo } }
+    let!(:bar) { Test::Bar = Class.new(AST::Node) { attribute :bar } }
+
+    let!(:baz) { Test::Baz = Class.new(Rules::Sole) }
+    let!(:qux) { Test::Qux = Class.new(Rules::Sole) }
+
     let(:settings) do
       described_class.new do
-        command :foo, Test::Node do |value|
-          { foo: value }
-        end
-
-        rule Test::Rule
+        command(:foo, Test::Foo) { |value| { foo: value } }
+        rule Test::Baz
       end
     end
 
@@ -60,8 +61,8 @@ class AbstractMapper
       it { is_expected.to be_kind_of Commands }
 
       it "contains registered commands" do
-        node = subject[:foo].call(:bar)
-        expect(node.inspect).to eql "<Node(foo: :bar)>"
+        node = subject[:foo].call(:FOO)
+        expect(node.inspect).to eql "<Foo(foo: :FOO)>"
       end
     end # describe #commands
 
@@ -71,7 +72,7 @@ class AbstractMapper
       it { is_expected.to be_kind_of Rules }
 
       it "contains registered rules" do
-        expect(subject.registry).to eql [rule]
+        expect(subject.registry).to eql [baz]
       end
     end # describe #rules
 
@@ -96,6 +97,29 @@ class AbstractMapper
         expect(subject.rules).to eql settings.rules
       end
     end # describe #optimizer
+
+    describe "#update" do
+      subject do
+        settings.update do
+          command(:bar, Test::Bar) { |value| { bar: value } }
+          rule Test::Qux
+        end
+      end
+
+      it { is_expected.to be_kind_of described_class }
+
+      it "updates commands" do
+        node = subject.commands[:foo].call(:FOO)
+        expect(node.inspect).to eql "<Foo(foo: :FOO)>"
+
+        node = subject.commands[:bar].call(:BAR)
+        expect(node.inspect).to eql "<Bar(bar: :BAR)>"
+      end
+
+      it "updates rules" do
+        expect(subject.rules.registry).to eql [baz, qux]
+      end
+    end # describe #update
 
   end # describe Settings
 

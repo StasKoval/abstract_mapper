@@ -29,13 +29,29 @@ class AbstractMapper
     describe "#configure" do
       subject { config }
 
-      it { is_expected.to eql dsl }
+      it "returns self" do
+        expect(subject).to eql dsl
+      end
 
       it "configures settings" do
         subject
+
         expect(dsl.settings).to be_kind_of Settings
         expect(dsl.settings.rules.registry).to eql [rule]
         expect { dsl.settings.commands[:foo] }.not_to raise_error
+      end
+
+      it "updates existing settings" do
+        subject
+        dsl.configure do
+          command :baz, Test::Foo
+        end
+
+        expect(dsl.settings).to be_kind_of Settings
+        expect(dsl.settings.rules.registry).to eql [rule]
+        expect { dsl.settings.commands[:foo] }.not_to raise_error
+        expect { dsl.settings.commands[:bar] }.not_to raise_error
+        expect { dsl.settings.commands[:baz] }.not_to raise_error
       end
     end # describe #configure
 

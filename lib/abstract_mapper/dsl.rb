@@ -31,7 +31,7 @@ class AbstractMapper
     # @yield a block
     #
     def configure(&block)
-      @settings = Settings.new(&block)
+      @settings = settings ? settings.update(&block) : Settings.new(&block)
       self
     end
 

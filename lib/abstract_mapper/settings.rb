@@ -50,6 +50,17 @@ class AbstractMapper
       IceNine.deep_freeze(self)
     end
 
+    # Returns a new class with rules and commands added from the block
+    # to the existing ones
+    #
+    # @return [AbstractMapper::Settings]
+    #
+    # @yield the block with settings for commands and rules
+    #
+    def update(&block)
+      self.class.new(rules, commands, &block)
+    end
+
     private
 
     def rule(value)
