@@ -93,7 +93,7 @@ class AbstractMapper
       # @return [String]
       #
       def to_s
-        "#{super} [#{map(&:inspect).join(", ")}]"
+        "#{super()} [#{map(&:inspect).join(", ")}]"
       end
 
       # Checks equality of branches by type, attributes and subnodes
@@ -111,7 +111,7 @@ class AbstractMapper
       # Substitutes the name of the class by the special name "Root"
       # to describe the root node of AST.
       def __name__
-        instance_of?(Branch) ? "Root" : super
+        instance_of?(Branch) ? "Root" : super()
       end
 
     end # class Branch

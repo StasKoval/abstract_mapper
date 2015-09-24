@@ -12,10 +12,11 @@ class AbstractMapper
     #
     class UnknownCommand < NameError
 
+      include Immutability
+
       # @private
       def initialize(name)
         super "'#{name}' is not a registered DSL command"
-        IceNine.deep_freeze(self)
       end
 
     end # class UnknownCommand

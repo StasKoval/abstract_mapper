@@ -6,7 +6,7 @@ describe AbstractMapper::Errors::UnknownCommand do
 
   describe ".new" do
     it { is_expected.to be_kind_of NameError }
-    it { is_expected.to be_frozen }
+    it { is_expected.to be_immutable }
   end # describe .new
 
   describe "#message" do

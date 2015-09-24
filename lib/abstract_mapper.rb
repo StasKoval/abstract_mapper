@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 require "attributes_dsl"
-require "ice_nine"
+require "immutability"
 require "transproc"
 
 require_relative "abstract_mapper/functions"
@@ -40,6 +40,7 @@ require_relative "abstract_mapper/dsl"
 class AbstractMapper
 
   extend DSL # configurable DSL container
+  include Immutability
 
   # @!attribute [r] tree
   #
@@ -57,7 +58,6 @@ class AbstractMapper
   def initialize
     @tree = self.class.finalize
     @transproc = @tree.transproc
-    IceNine.deep_freeze(self)
   end
 
   # Maps the input data to some output using the transformation,

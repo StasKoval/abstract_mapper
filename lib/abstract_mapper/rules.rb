@@ -12,6 +12,8 @@ class AbstractMapper
   #
   class Rules
 
+    include Immutability
+
     # @!attribute [r] registry
     #
     # @return [Array<AbstractMapper::Rules::Base>]
@@ -31,7 +33,6 @@ class AbstractMapper
     def initialize(registry = [])
       @registry  = registry.dup
       @transproc = registry.map(&:transproc).inject(:>>)
-      IceNine.deep_freeze(self)
     end
 
     # Returns the copy of current registry with the new rule added

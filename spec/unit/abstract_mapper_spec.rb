@@ -18,14 +18,14 @@ describe AbstractMapper do
   describe ".new" do
     subject { mapper }
 
-    it { is_expected.to be_frozen }
+    it { is_expected.to be_immutable }
   end # describe .new
 
   describe "#tree" do
     subject { mapper.tree }
 
     it { is_expected.to eql tree }
-    it { is_expected.to be_frozen }
+    it { is_expected.to be_immutable }
   end # describe #tree
 
   describe "#call" do

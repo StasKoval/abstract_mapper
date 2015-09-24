@@ -11,7 +11,7 @@ class AbstractMapper # namespace
     describe ".new" do
       subject { optimizer }
 
-      it { is_expected.to be_frozen }
+      it { is_expected.to be_immutable }
     end # describe .new
 
     describe "#rules" do

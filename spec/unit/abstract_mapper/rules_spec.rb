@@ -9,7 +9,7 @@ describe AbstractMapper::Rules do
   describe ".new" do
     subject { rules }
 
-    it { is_expected.to be_frozen }
+    it { is_expected.to be_immutable }
   end # describe .new
 
   describe "#registry" do
@@ -19,7 +19,7 @@ describe AbstractMapper::Rules do
       let(:rules) { described_class.new }
 
       it { is_expected.to eql []    }
-      it { is_expected.to be_frozen }
+      it { is_expected.to be_immutable }
     end
 
     context "initialized" do
@@ -27,7 +27,7 @@ describe AbstractMapper::Rules do
       let(:registry) { [foo, bar] }
 
       it { is_expected.to eql registry }
-      it { is_expected.to be_frozen    }
+      it { is_expected.to be_immutable    }
       it "doesn't freeze a source" do
         expect { subject }.not_to change { registry.frozen? }
       end

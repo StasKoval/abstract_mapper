@@ -18,3 +18,6 @@ RSpec.configure do |config|
     AbstractMapper.send :remove_const, :Test
   end
 end
+
+# Loads specific matchers
+require "immutability/rspec"

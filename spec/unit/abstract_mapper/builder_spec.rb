@@ -67,7 +67,7 @@ class AbstractMapper
         expect(subject.inspect).to eql tree.inspect
       end
 
-      it { is_expected.to be_frozen }
+      it { is_expected.to be_immutable }
     end # describe #tree
 
     describe "#respond_to?" do

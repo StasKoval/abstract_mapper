@@ -12,6 +12,8 @@ class AbstractMapper
     #
     class Base
 
+      include Immutability
+
       # @!attribute [r] name
       #
       # @return [Symbol] The name of the DSL command
@@ -46,7 +48,6 @@ class AbstractMapper
         @klass = klass
         @branch = Functions[:subclass?, AST::Branch][klass]
         @converter = converter || proc { |args = {}| args }
-        IceNine.deep_freeze(self)
       end
 
       # Builds the AST node

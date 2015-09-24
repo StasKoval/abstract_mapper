@@ -9,6 +9,8 @@ class AbstractMapper
   #
   class Settings
 
+    include Immutability
+
     # @!attribute [r] commands
     #
     # @return [AbstractMapper::Commands]
@@ -47,7 +49,6 @@ class AbstractMapper
       @rules    = rules
       @commands = commands
       configure(&block)
-      IceNine.deep_freeze(self)
     end
 
     # Returns a new class with rules and commands added from the block

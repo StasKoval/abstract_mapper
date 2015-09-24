@@ -9,6 +9,8 @@ class AbstractMapper
   #
   class Optimizer
 
+    include Immutability
+
     # @!attribute [r] rules
     #
     # @return [AbstractMapper::Rules]
@@ -28,7 +30,6 @@ class AbstractMapper
     # @private
     def initialize(rules)
       @rules = rules
-      IceNine.deep_freeze(self)
     end
 
     # Recursively optimizes the AST from root to leafs

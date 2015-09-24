@@ -26,7 +26,7 @@ describe AbstractMapper::AST::Branch do
     subject { branch }
 
     it { is_expected.to be_kind_of Enumerable }
-    it { is_expected.to be_frozen             }
+    it { is_expected.to be_immutable             }
 
     context "without a block" do
       subject { test.new(foo: :FOO).entries }

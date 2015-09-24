@@ -13,7 +13,7 @@ describe AbstractMapper::Rules::Pair do
     subject { rule }
 
     it { is_expected.to be_kind_of AbstractMapper::Rules::Base }
-    it { is_expected.to be_frozen }
+    it { is_expected.to be_immutable }
 
     it "requires second argument" do
       expect { test.new(left) }.to raise_error(ArgumentError)

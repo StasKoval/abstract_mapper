@@ -15,7 +15,7 @@ class AbstractMapper
 
       let(:registry) { { foo: foo, bar: bar } }
 
-      it { is_expected.to be_frozen }
+      it { is_expected.to be_immutable }
 
       it "doesn't freeze arguments" do
         expect { subject }.not_to change { registry.frozen? }

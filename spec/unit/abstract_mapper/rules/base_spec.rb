@@ -10,14 +10,14 @@ describe AbstractMapper::Rules::Base do
   describe ".new" do
     subject { rule }
 
-    it { is_expected.to be_frozen }
+    it { is_expected.to be_immutable }
   end # describe .new
 
   describe "#nodes" do
     subject { rule.nodes }
 
     it { is_expected.to eql nodes }
-    it { is_expected.to be_frozen }
+    it { is_expected.to be_immutable }
 
     it "doesn't freeze the source" do
       expect { subject }.not_to change { nodes.frozen? }

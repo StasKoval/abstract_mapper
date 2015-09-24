@@ -23,7 +23,7 @@ class AbstractMapper # namespace
         expect(subject.bar).to eql :BAR
       end
 
-      it { is_expected.to be_frozen }
+      it { is_expected.to be_immutable }
 
       it "doesn't freeze the source" do
         expect { subject }.not_to change { attributes.frozen? }

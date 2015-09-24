@@ -8,7 +8,7 @@ describe AbstractMapper::Errors::WrongRule do
     subject { error }
 
     it { is_expected.to be_kind_of TypeError }
-    it { is_expected.to be_frozen }
+    it { is_expected.to be_immutable }
   end # describe .new
 
   describe "#message" do

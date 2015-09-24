@@ -21,6 +21,7 @@ class AbstractMapper
 
       extend AttributesDSL
       include Comparable
+      include Immutability
 
       # @!attribute [r] block
       #
@@ -32,7 +33,6 @@ class AbstractMapper
       def initialize(_ = {}, &block)
         super
         @block = block
-        IceNine.deep_freeze(self)
       end
 
       # @!method transproc
@@ -43,7 +43,7 @@ class AbstractMapper
       # @abstract
       #
       def transproc
-        Functions[:identity]
+        Functions.fetch(:identity)
       end
 
       # Returns a human-readable string representating the node

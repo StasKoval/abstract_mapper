@@ -12,6 +12,8 @@ class AbstractMapper
     #
     class Base
 
+      include Immutability
+
       # @private
       def self.composer
         :identity
@@ -41,7 +43,6 @@ class AbstractMapper
       #
       def initialize(*nodes)
         @nodes = nodes
-        IceNine.deep_freeze(self)
       end
 
       # Checks if optimization is needed for the node(s)

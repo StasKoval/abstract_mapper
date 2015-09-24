@@ -16,6 +16,8 @@ class AbstractMapper
   #
   class Builder
 
+    include Immutability
+
     class << self
 
       # @!attribute [rw] commands
@@ -65,7 +67,6 @@ class AbstractMapper
       @tree     = node
       @commands = self.class.commands
       instance_eval(&block) if block_given?
-      IceNine.deep_freeze(self)
     end
 
     private # DSL commands

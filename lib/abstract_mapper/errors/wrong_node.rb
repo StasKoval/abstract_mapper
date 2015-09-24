@@ -10,10 +10,11 @@ class AbstractMapper
     #
     class WrongNode < TypeError
 
+      include Immutability
+
       # @private
       def initialize(node)
         super "#{node} is not a subclass of AbstractMapper::AST::Node"
-        IceNine.deep_freeze(self)
       end
 
     end # class WrongNode

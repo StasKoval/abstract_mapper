@@ -10,6 +10,8 @@ class AbstractMapper
   #
   class Commands
 
+    include Immutability
+
     # @!scope class
     # @!method new(registry = {})
     # Creates an immutable collection of commands
@@ -21,7 +23,6 @@ class AbstractMapper
     # @private
     def initialize(registry = {})
       @registry = registry.dup
-      IceNine.deep_freeze(self)
     end
 
     # Returns a new immutable registry with added command name and type

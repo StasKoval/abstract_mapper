@@ -12,7 +12,7 @@ describe AbstractMapper::Rules::Sole do
     subject { rule }
 
     it { is_expected.to be_kind_of AbstractMapper::Rules::Base }
-    it { is_expected.to be_frozen }
+    it { is_expected.to be_immutable }
 
     it "denies second argument" do
       expect { test.new(node, node) }.to raise_error(ArgumentError)
