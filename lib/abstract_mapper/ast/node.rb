@@ -76,7 +76,7 @@ class AbstractMapper
       private
 
       def __name__
-        self.class.name.split("::").last
+        "#{self.class}".split("::").last
       end
 
       def __attributes__
